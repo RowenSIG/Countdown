@@ -25,7 +25,7 @@ public class Bomb : MonoBehaviour
         var index = defusals.Count;
         var clone = GameObject.Instantiate(prefab, defusalTransforms[index]);
 
-        clone.Setupinstruction(zInstruction);
+        clone.SetupWithInstruction(zInstruction);
         defusals.Add(clone);
     }
 

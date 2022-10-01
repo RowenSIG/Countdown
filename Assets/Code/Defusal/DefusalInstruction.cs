@@ -20,21 +20,20 @@ public abstract class DefusalInstruction
 public class CodeDefusalInstruction : DefusalInstruction
 {
     public override eDefusalType Type => eDefusalType.CODE;
-    public List<int> code;
+    public List<int> code = new List<int>();
 
     protected override bool MatchInternal(DefusalInstruction zInstruction)
     {
         var zCode = zInstruction as CodeDefusalInstruction;
-        if (code.Count != zCode.code.Count)
-            return false;
 
-        for (int i = 0; i < code.Count; i++)
+        for (int i = 0; i < zCode.code.Count; i++)
         {
             if (code[i] != zCode.code[i])
                 return false;
         }
 
-        Defused = true;
+        if(code.Count == zCode.code.Count)
+            Defused = true;
         return true;
     }
 }
@@ -43,7 +42,7 @@ public class WireCutDefusalInstruction : DefusalInstruction
 {
     public override eDefusalType Type => eDefusalType.WIRE_CUT;
 
-    public List<eColour> wireColours;
+    public List<eColour> wireColours = new List<eColour>();
     public int chosenWireIndex;
 
     protected override bool MatchInternal(DefusalInstruction zInstruction)
@@ -62,7 +61,7 @@ public class LiquidDefusalInstruction : DefusalInstruction
 {
     public override eDefusalType Type => eDefusalType.LIQUID;
 
-    public List<eColour> colourOrder;
+    public List<eColour> colourOrder = new List<eColour>();
     public eColour finalColour;
 
     protected override bool MatchInternal(DefusalInstruction zInstruction)
@@ -108,7 +107,7 @@ public class ScrewDriverDefusalInstruction : DefusalInstruction
 {
     public override eDefusalType Type => eDefusalType.SCREW_DRIVER_PANEL;
 
-    public List<bool> order;
+    public List<bool> order = new List<bool>();
     private int successes = 0;
 
     public int attemptIndex;
@@ -144,7 +143,7 @@ public class TurnyHandleDefusalInstruction : DefusalInstruction
 {
     public override eDefusalType Type => eDefusalType.TURNY_HANDLE;
 
-    public List<eTurnDirection> order;
+    public List<eTurnDirection> order = new List<eTurnDirection>();
     private int successes = 0;
 
     public eTurnDirection attemptDirection;

@@ -12,9 +12,7 @@ public class InGameMenu : MonoBehaviour
     public GameObject interactionButton2;
     public Text interactionLabel2;
 
-
-    private Action interactionAction1;
-    private Action interactionAction2;
+    public GameObject interactionCursor;
 
     public void Awake()
     {
@@ -25,40 +23,52 @@ public class InGameMenu : MonoBehaviour
         Instance = null;
     }
 
-    public void SetVisibleInteractions(Action zInteractionAction1, string zInteractionLabel1, Action zInteractionAction2, string zInteractionLabel2 )
+    private void Update()
     {
-        if(zInteractionAction1 != null)
+        if(Room.Instance.Mode == eMode.NORMAL)
+            interactionCursor.EnsureActive(true);
+        else
+            interactionCursor.EnsureActive(false);
+    }
+
+    public void SetVisibleInteractions(string zInteractionLabel1, string zInteractionLabel2 )
+    {
+        if(string.IsNullOrEmpty(zInteractionLabel1) == false)
         {
-            interactionButton1.SetActive(true);
+            interactionButton1.EnsureActive(true);
             interactionLabel1.text = zInteractionLabel1;
         }
-
-        if(zInteractionAction2 != null)
+        else
         {
-            interactionButton2.SetActive(true);
+            interactionButton1.EnsureActive(false);
+        }
+
+        if(string.IsNullOrEmpty(zInteractionLabel2) == false)
+        {
+            interactionButton2.EnsureActive(true);
             interactionLabel2.text = zInteractionLabel2;
         }
         else
         {
-            interactionButton2.SetActive(false);
+            interactionButton2.EnsureActive(false);
         }
 
     }
 
     public void ClearInteractions()
     {
-        interactionButton1.SetActive(false);
-        interactionButton2.SetActive(false);
+        interactionButton1.EnsureActive(false);
+        interactionButton2.EnsureActive(false);
     }
 
 
     public void OnInteraction1()
     {
-        interactionAction1?.Invoke();
+        Room.Instance.InteractWithTarget();
     }
     public void OnInteraction2()
     {
-        interactionAction2?.Invoke();
+        Room.Instance.SecondaryInteractionWithTarget();
     }
 }
 

@@ -9,6 +9,7 @@ public enum ePlayerInput
 }
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
     public ePlayerInput playerInput;
     public Rigidbody body;
     public float moveSpeed;
@@ -18,22 +19,46 @@ public class Player : MonoBehaviour
     public float maxLookUpAngle;
     public float maxLookDownAngle;
 
-
     public float interactionDistance;
+
+    public List<eCollectibleItem> collectedItems = new List<eCollectibleItem>();
 
     public Transform upDownTransform;
 
+    void Awake()
+    {
+        Instance = this;
+    }
+    void OnDestroy()
+    {
+        Instance = null;
+    }
+
     void Update()
     {
-        
-        UpdateLook();
-
-        CheckPointingRaycast();
+        if (Room.Instance.Mode == eMode.NORMAL)
+        {
+            UpdateLook();
+            CheckPointingRaycast();
+            CheckInteractions();
+        }
     }
 
     void FixedUpdate()
     {
-        UpdateMovement();
+        if (Room.Instance.Mode == eMode.NORMAL)
+        {
+            UpdateMovement();
+        }
+    }
+
+    public void StartDefusal()
+    {
+        //do something?
+    }
+    public void ReturnToNormal()
+    {
+
     }
 
     void UpdateMovement()
@@ -95,6 +120,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    void CheckInteractions()
+    {
+        (bool action1, bool action2) = GetActionInput();
+
+        if (action1)
+        {
+            Room.Instance.InteractWithTarget();
+        }
+        else if (action2)
+        {
+            Room.Instance.SecondaryInteractionWithTarget();
+        }
+    }
+
+    public void GainCollectableItem(eCollectibleItem zItem)
+    {
+        collectedItems.Add(zItem);
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
@@ -104,6 +148,28 @@ public class Player : MonoBehaviour
     }
 
 
+    (bool action1, bool action2) GetActionInput()
+    {
+
+        //quite simply, do we have input?
+        bool action1 = false;
+        bool action2 = false;
+
+        switch (playerInput)
+        {
+            default:
+            case ePlayerInput.KEYBOARD:
+                action1 = Input.GetKeyDown(KeyCode.E);
+                action2 = Input.GetKeyDown(KeyCode.F);
+                break;
+
+            case ePlayerInput.GAMEPAD:
+                action1 = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+                action2 = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_LEFT);
+                break;
+        }
+        return (action1, action2);
+    }
     Vector2 GetMoveVector()
     {
         var move = Vector2.zero;
