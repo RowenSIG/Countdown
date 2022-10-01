@@ -1,0 +1,162 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum ePlayerInput
+{
+    KEYBOARD = 0,
+    GAMEPAD = 1,
+}
+public class Player : MonoBehaviour
+{
+    public ePlayerInput playerInput;
+    public Rigidbody body;
+    public float moveSpeed;
+    public float turnSpeedY;
+    public float turnSpeedX;
+
+    public float maxLookUpAngle;
+    public float maxLookDownAngle;
+
+
+    public float interactionDistance;
+
+    public Transform upDownTransform;
+
+    void Update()
+    {
+        
+        UpdateLook();
+
+        CheckPointingRaycast();
+    }
+
+    void FixedUpdate()
+    {
+        UpdateMovement();
+    }
+
+    void UpdateMovement()
+    {
+        var move = GetMoveVector();
+        if (move.sqrMagnitude <= 0)
+            return;
+
+        var point = transform.forward;
+        point.y = 0;
+        point.Normalize();
+
+        var right = transform.right;
+        right.y = 0;
+        right.Normalize();
+
+        var moveForce = Time.fixedDeltaTime * moveSpeed * ((move.y * point) + (move.x * right));
+        body.AddForce(moveForce, ForceMode.VelocityChange);
+    }
+
+    void UpdateLook()
+    {
+        var lookDelta = GetLookVector();
+
+        //turn in y axis:
+        var yawAngle = lookDelta.x * Time.deltaTime * turnSpeedX;
+        var yaw = Quaternion.AngleAxis(yawAngle, Vector3.up);
+        transform.rotation = yaw * transform.rotation;
+
+        var pitchAngle = lookDelta.y * Time.deltaTime * turnSpeedY;
+        //what's our pointing angle relative to Y axis?
+        var currentAngle = Vector3.Angle(upDownTransform.forward, Vector3.up);
+
+        if (pitchAngle < 0 && currentAngle < (90 - maxLookUpAngle))
+            pitchAngle = 0f;
+
+        if (pitchAngle > 0 && currentAngle > (90 + maxLookDownAngle))
+            pitchAngle = 0f;
+
+        var pitch = Quaternion.AngleAxis(pitchAngle, upDownTransform.right);
+        upDownTransform.rotation = pitch * upDownTransform.rotation;
+    }
+
+    void CheckPointingRaycast()
+    {
+        var screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        var ray = Camera.main.ScreenPointToRay(screenCenter);
+
+        var layerMask = LayerMask.GetMask("Interactives");
+        var hit = Physics.Raycast(ray, out var hitInfo, interactionDistance, layerMask);
+
+        if (hit)
+        {
+            Room.Instance.CurrentPlayerPointingTarget(hitInfo.collider);
+        }
+        else
+        {
+            Room.Instance.CurrentPlayerPointingAtNothing();
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        var screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        var ray = Camera.main.ScreenPointToRay(screenCenter);
+        Gizmos.DrawRay(ray.origin, ray.direction * interactionDistance);
+    }
+
+
+    Vector2 GetMoveVector()
+    {
+        var move = Vector2.zero;
+
+        switch (playerInput)
+        {
+            default:
+            case ePlayerInput.KEYBOARD:
+                if (Input.GetKey(KeyCode.W))
+                    move.y += 1;
+                if (Input.GetKey(KeyCode.S))
+                    move.y -= 1;
+                if (Input.GetKey(KeyCode.A))
+                    move.x -= 1;
+                if (Input.GetKey(KeyCode.D))
+                    move.x += 1;
+                return move;
+
+            case ePlayerInput.GAMEPAD:
+                move.y += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_VERTICAL);
+                move.x += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_HORIZONTAL);
+                return move;
+        }
+    }
+
+    Vector2 GetLookVector()
+    {
+        var look = Vector2.zero;
+
+        switch (playerInput)
+        {
+            default:
+            case ePlayerInput.KEYBOARD:
+                //mouse movement?
+                // move.x = Input.GetAxis("Mouse X");
+                // move.y = Input.GetAxis("Mouse Y");
+
+                look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
+                look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
+                look.y -= Input.GetKey(KeyCode.UpArrow) ? 1 : 0;
+                look.y += Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
+
+                look.x = Mathf.Clamp(look.x, -1f, 1f);
+                look.y = Mathf.Clamp(look.y, -1f, 1f);
+
+                return look;
+
+            case ePlayerInput.GAMEPAD:
+                look.y += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_VERTICAL);
+                look.x += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_HORIZONTAL);
+                return look;
+        }
+
+    }
+}
+
