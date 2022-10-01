@@ -68,3 +68,14 @@ MonoBehaviour:
   - colour: 8
     color: {r: 1, g: 1, b: 1, a: 1}
     material: {fileID: 2100000, guid: bbd1efb6362191d4abe70b5767a522b0, type: 2}
+  colourMixes:
+  - colourOrder: 0100000002000000
+    result: 5
+  - colourOrder: 0200000001000000
+    result: 5
+  - colourOrder: 0100000004000000
+    result: 3
+  - colourOrder: 0400000001000000
+    result: 3
+  - colourOrder: 0100000003000000
+    result: 7

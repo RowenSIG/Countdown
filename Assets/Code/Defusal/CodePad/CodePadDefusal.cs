@@ -12,8 +12,6 @@ public class CodePadDefusal : DefusalBase
     public int currentButtonValue = 0;
     private CodePadButton CurrentButton => buttons.Find(p => p.buttonValue == currentButtonValue);
 
-    bool busy = false;
-
     private CodeDefusalInstruction Progress => progress as CodeDefusalInstruction;
 
     public NumericalDisplay codeDisplay;
@@ -57,8 +55,6 @@ public class CodePadDefusal : DefusalBase
 
     protected override void UpdateInternal()
     {
-        if(busy)
-            return;
         CheckNavigation();
         CheckPress();
 

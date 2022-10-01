@@ -8,7 +8,6 @@ public class WireCutDefusal : DefusalBase
 
     public GameObject cutters;
     public Animator cutterAnim;
-    private bool busy;
 
     [SerializeField]
     private List<WireCutWire> wires = new List<WireCutWire>();
@@ -32,9 +31,6 @@ public class WireCutDefusal : DefusalBase
 
     protected override void UpdateInternal()
     {
-        if (busy)
-            return;
-
         UpdateMovement();
         UpdateCutInput();
     }

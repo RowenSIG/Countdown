@@ -44,6 +44,7 @@ public abstract class DefusalBase : InteractiveItem
     protected DefusalInstruction progress;
 
     public Camera defusalCamera;
+    protected bool busy = false;
 
     protected virtual void Awake()
     {
@@ -54,6 +55,8 @@ public abstract class DefusalBase : InteractiveItem
         if(Room.Instance.CurrentDefusal != this)
             return;
         
+        if(busy)
+            return;
         bool cancel = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_RIGHT); 
         if (cancel)
         {

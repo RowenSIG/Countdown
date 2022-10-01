@@ -14,8 +14,18 @@ public class ColourProvider : MonoBehaviour
         public Material material;
     }
 
+    [System.Serializable]
+    public class ColourMix
+    {
+        public List<eColour> colourOrder;
+        public eColour result;
+    }
+
     [SerializeField]
     private List<ColourMatch> colours;
+
+    [SerializeField]
+    private List<ColourMix> colourMixes;
 
     public void Awake()
     {
@@ -25,7 +35,7 @@ public class ColourProvider : MonoBehaviour
     {
         Instance = null;
     }
-    
+
     public static Color GetColor(eColour zColour)
     {
         var match = Instance.colours.Find(p => p.colour == zColour);
@@ -35,6 +45,28 @@ public class ColourProvider : MonoBehaviour
     {
         var match = Instance.colours.Find(p => p.colour == zColour);
         return match.material;
+    }
+
+    public static eColour GetColourMix(List<eColour> zColours)
+    {
+        foreach(var mix in Instance.colourMixes)
+        {
+            if(mix.colourOrder.Count != zColours.Count)
+                continue;
+
+            bool success = true;
+            for(int i = 0 ; i < zColours.Count; i++)
+            {
+                if(mix.colourOrder[i] != zColours[i])
+                    success = false;
+            }
+
+            if(success)
+                return mix.result;
+        }
+
+        //fail.
+        return eColour.BROWN;
     }
 }
 
