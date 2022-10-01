@@ -16,8 +16,6 @@ public enum eDefusalType
 
 public enum eColour
 {
-    INVALID = 0,
-
     BLUE = 1,
     RED = 2,
     GREEN = 3,
@@ -95,8 +93,11 @@ public abstract class DefusalBase : InteractiveItem
     public void Cancel()
     {
         statusLight.SetIdle();
-        defusalCamera.gameObject.EnsureActive(false);
         Room.Instance.CancelDefusal();
+    }
+    public void Close()
+    {
+        defusalCamera.gameObject.EnsureActive(false);
     }
 
     protected abstract void SetupInternal();

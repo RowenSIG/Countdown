@@ -77,13 +77,15 @@ public class Room : MonoBehaviour
     {
         var collectableType = zCollectable.Type;
         zCollectable.Collect();
-        Player.Instance.GainCollectableItem(collectableType);
+        Player.Instance.GainCollectableItem(zCollectable);
     }
 
     public void CancelDefusal()
     {
         Mode = eMode.NORMAL;
+        CurrentDefusal.Close();
         Player.Instance.ReturnToNormal();
+        CurrentDefusal = null;
     }
 
     private void AttemptDefusal(DefusalBase zDefusal)
@@ -104,10 +106,5 @@ public class Room : MonoBehaviour
             Player.Instance.StartDefusal();
         }
     }
-    private void DefusalComplete(bool zSuccess)
-    {
-        CurrentDefusal = null;
-        Mode = eMode.NORMAL;
-        Player.Instance.ReturnToNormal();
-    }
+    
 }

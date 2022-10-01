@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     public float interactionDistance;
 
-    public List<eCollectibleItem> collectedItems = new List<eCollectibleItem>();
+    public List<CollectableItem> collectedItems = new List<CollectableItem>();
 
     public Transform upDownTransform;
 
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void GainCollectableItem(eCollectibleItem zItem)
+    public void GainCollectableItem(CollectableItem zItem)
     {
         collectedItems.Add(zItem);
     }

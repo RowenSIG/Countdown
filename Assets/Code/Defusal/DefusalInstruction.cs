@@ -62,23 +62,14 @@ public class LiquidDefusalInstruction : DefusalInstruction
     public override eDefusalType Type => eDefusalType.LIQUID;
 
     public List<eColour> colourOrder = new List<eColour>();
-    public eColour finalColour;
+    public eColour FinalColour => ColourProvider.GetColourMix(colourOrder);
 
     protected override bool MatchInternal(DefusalInstruction zInstruction)
     {
         var zLiquid = zInstruction as LiquidDefusalInstruction;
 
-        if (zLiquid.colourOrder.Count != colourOrder.Count)
+        if (FinalColour != zLiquid.FinalColour)
             return false;
-
-        if (finalColour != zLiquid.finalColour)
-            return false;
-
-        for (int i = 0; i < colourOrder.Count; i++)
-        {
-            if (colourOrder[i] != zLiquid.colourOrder[i])
-                return false;
-        }
 
         Defused = true;
         return true;
@@ -90,6 +81,9 @@ public class MagneticLockDefusalInstruction : DefusalInstruction
     public override eDefusalType Type => eDefusalType.MAGNETIC_LOCK;
 
     public int voltage;
+
+    public int battery1;
+    public int battery2;
 
     protected override bool MatchInternal(DefusalInstruction zInstruction)
     {
@@ -146,14 +140,13 @@ public class TurnyHandleDefusalInstruction : DefusalInstruction
     public List<eTurnDirection> order = new List<eTurnDirection>();
     private int successes = 0;
 
-    public eTurnDirection attemptDirection;
-
     protected override bool MatchInternal(DefusalInstruction zInstruction)
     {
         var zTurnyHandle = zInstruction as TurnyHandleDefusalInstruction;
 
         var nextExpectedDirection = order[successes];
-        if(zTurnyHandle.attemptDirection != nextExpectedDirection)
+        var attemptDirection = zTurnyHandle.order[successes];
+        if(attemptDirection != nextExpectedDirection)
             return false;
 
         successes += 1;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eCollectibleItem
+public enum eCollectableItem
 {
     INVALID = 0,
 
@@ -11,10 +11,11 @@ public enum eCollectibleItem
     ELECTRIC_WIRE = 2,
     LIQUID_BEAKER = 3,
     SCREW_DRIVER = 4,
+    BATTERY = 5,
 }
 public class CollectableItem : InteractiveItem
 {
-    public eCollectibleItem Type;
+    public eCollectableItem Type;
 
     public Animation useAnimation;
 

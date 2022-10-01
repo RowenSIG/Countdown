@@ -13,6 +13,8 @@ public class LiquidDefusal : DefusalBase
 
     public GameObject receptacleFilling; 
     public MeshRenderer receptacleFillingRenderer;
+
+    public MeshRenderer requirementRenderer;
     private LiquidDefusalInstruction Progress => progress as LiquidDefusalInstruction;
     
     protected override void Awake()
@@ -53,6 +55,9 @@ public class LiquidDefusal : DefusalBase
         beaker.EnsureActive(false);
         receptacleFilling.EnsureActive(false);
 
+        var liquid = instruction as LiquidDefusalInstruction;
+        var material = ColourProvider.GetMaterial(liquid.FinalColour);
+        requirementRenderer.material= material;
     }
 
     protected override void StartDefusalInternal()
@@ -77,6 +82,12 @@ public class LiquidDefusal : DefusalBase
         busy = false;
 
         beaker.EnsureActive(false);
+
+        if(Defused)
+        {
+            yield return new WaitForSeconds(0.7f);
+            Room.Instance.CancelDefusal();
+        }
     }
 
 }

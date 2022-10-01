@@ -32,11 +32,11 @@ public class CodePadDefusal : DefusalBase
 
         base.Awake();
     }
+
     protected override void SetupInternal()
     {
         progress = new CodeDefusalInstruction();
         finger.gameObject.EnsureActive(false);
-        
     }
 
     protected override void StartDefusalInternal()
@@ -46,6 +46,7 @@ public class CodePadDefusal : DefusalBase
         
         SetFingerPos(0);
     }
+
     private void SetFingerPos(int zValue)
     {
         currentButtonValue = zValue;
@@ -60,6 +61,7 @@ public class CodePadDefusal : DefusalBase
 
         UpdateDisplay();
     }
+
     private void CheckNavigation()
     {
         var currentButton = CurrentButton;
@@ -122,11 +124,17 @@ public class CodePadDefusal : DefusalBase
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
         AttemptDefusal(progress);
 
         busy = false;
+        
+        if(Defused)
+        {
+            yield return new WaitForSeconds(0.7f);
+            Room.Instance.CancelDefusal();
+        }
     }
 }
 

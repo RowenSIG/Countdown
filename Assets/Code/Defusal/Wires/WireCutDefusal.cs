@@ -95,9 +95,14 @@ public class WireCutDefusal : DefusalBase
         yield return new WaitForSeconds(0.5f);
 
         AttemptDefusal(progress);
-        busy = false;
-
 
         cutters.EnsureActive(false);
+        busy = false;
+
+        if(Defused)
+        {
+            yield return new WaitForSeconds(0.7f);
+            Room.Instance.CancelDefusal();
+        }
     }
 }

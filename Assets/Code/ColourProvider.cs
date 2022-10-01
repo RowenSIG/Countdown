@@ -25,7 +25,8 @@ public class ColourProvider : MonoBehaviour
     private List<ColourMatch> colours;
 
     [SerializeField]
-    private List<ColourMix> colourMixes;
+    public List<ColourMix> colourMixes;
+    
 
     public void Awake()
     {
