@@ -57,7 +57,7 @@ public abstract class DefusalBase : InteractiveItem
     {
         Room.Instance.StartDefusal(this);
     }
-    
+
     protected virtual void Awake()
     {
         defusalCamera.gameObject.EnsureActive(false);
@@ -69,7 +69,12 @@ public abstract class DefusalBase : InteractiveItem
         
         if(busy)
             return;
+
+        if(Defused)
+            return;
+
         bool cancel = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_RIGHT); 
+        cancel |= Input.GetKeyDown(KeyCode.Q);
         if (cancel)
         {
             Cancel();
@@ -101,11 +106,15 @@ public abstract class DefusalBase : InteractiveItem
 
     public void StartDefusal()
     {
+        progress = Player.Instance.instructions.GetInstruction(Type);
+
+        StartCoroutine(CoStartWait());
         defusalCamera.gameObject.EnsureActive(true);
         StartDefusalInternal();
     }
     public void Cancel()
     {
+        CancelInternal();
         statusLight.SetIdle();
         Room.Instance.CancelDefusal();
     }
@@ -117,5 +126,13 @@ public abstract class DefusalBase : InteractiveItem
     protected abstract void SetupInternal();
     protected abstract void StartDefusalInternal();
     protected abstract void UpdateInternal();
+
+    protected virtual void CancelInternal() {}
+    private IEnumerator<YieldInstruction> CoStartWait()
+    {
+        busy = true;
+        yield return new WaitForSeconds(0.5f);
+        busy = false;
+    }
 }
 

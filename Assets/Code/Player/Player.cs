@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public float interactionDistance;
 
     public PlayerInventory inventory;
+    public PlayerInstructions instructions;
 
     public Transform upDownTransform;
 
@@ -169,6 +170,7 @@ public class Player : MonoBehaviour
     public void GainCollectableItem(CollectableItem zItem)
     {
         inventory.TryAddItem(zItem);
+        instructions.ItemCollected(zItem);
     }
 
     public bool CanCollect(eCollectableItem zItem)

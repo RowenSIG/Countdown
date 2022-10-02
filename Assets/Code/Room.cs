@@ -21,6 +21,14 @@ public class Room : MonoBehaviour
         Mode = eMode.NORMAL;
         instance = this;
     }
+
+    public void Start()
+    {
+        BombConfigurator.Instance.Configure();
+
+        var configuration = BombConfigurator.Instance.bombConfiguration;
+        Bomb.Instance.Setup(configuration.instructions);
+    }
     public void OnDestroy()
     {
         instance = null;

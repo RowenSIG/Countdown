@@ -11,8 +11,8 @@ public class CodeNumberLocation : MonoBehaviour
     {
         indexNumber.gameObject.EnsureActive(true);
         codeNumber.gameObject.EnsureActive(true);
-        indexNumber.Show(zIndex);
-        codeNumber.Show(zNumber);
+        indexNumber.Set(zIndex);
+        codeNumber.Set(zNumber);
     }
 
     public void Reset()

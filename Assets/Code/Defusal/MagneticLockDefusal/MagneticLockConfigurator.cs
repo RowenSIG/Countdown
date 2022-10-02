@@ -6,14 +6,14 @@ public class MagneticLockConfigurator : DefusalConfigurator
 {
     public override eDefusalType Type => eDefusalType.MAGNETIC_LOCK;
     private static readonly List<int> singleBatteryVoltages = new List<int>() { -1, 2, 5, 9 };
-    private static readonly List<int> doubleBatteryVoltages = new List<int>() { 1, 4, 7, 8, 11, 14 };
 
     public Battery batteryPrefab;
 
     public List<Transform> locations;
     private List<Battery> batteries = new List<Battery>();
 
-    private int voltage;
+    private int voltage1;
+    private int voltage2;
 
     public override void ConfigureDefusal()
     {
@@ -36,7 +36,8 @@ public class MagneticLockConfigurator : DefusalConfigurator
     public override DefusalInstruction GetDefusalInstruction()
     {
         var instruction = new MagneticLockDefusalInstruction();
-        instruction.voltage = voltage;
+        instruction.battery1 = voltage1;
+        instruction.battery2 = voltage2;
         return instruction;
     }
 
@@ -57,8 +58,15 @@ public class MagneticLockConfigurator : DefusalConfigurator
 
     private void ChooseTargetVoltage()
     {
-        var rand = Random.Range(0, doubleBatteryVoltages.Count);
-        voltage = doubleBatteryVoltages[rand];
+        var tempList = new List<int>();
+        tempList.AddRange(singleBatteryVoltages);
+
+        var rand1 = Random.Range(0 , tempList.Count);
+        voltage1 = tempList[rand1];
+        tempList.RemoveAt(rand1);
+
+        var rand2 = Random.Range(0, tempList.Count);
+        voltage2 = tempList[rand2];
     }
 
     private void SpawnBatteries()

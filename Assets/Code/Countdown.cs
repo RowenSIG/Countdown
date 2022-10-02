@@ -7,19 +7,25 @@ public class Countdown : MonoBehaviour
     private static Countdown instance;
     public static Countdown Instance => instance;
 
-    private int countdown = 10;
+    public int TimeLeft {get ; private set;}
 
     public void Awake()
     {
         instance = this;
+        Reset();
     }
     public void OnDestroy()
     {
         instance = null;
     }
 
+    public void Reset()
+    {
+        TimeLeft = 10;
+    }
+
     public void SpendTime()
     {
-        countdown -= 1;
+        TimeLeft -= 1;
     }
 }

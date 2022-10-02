@@ -212,11 +212,11 @@ MonoBehaviour:
   - colour: 1
     riddle: What a todo, give us a clue!
   - colour: 3
-    riddle: Two, not one
+    riddle: Two not one, Eco warrior
   - colour: 4
     riddle: When life seems to be asking for lemonade
   - colour: 5
-    riddle: Like an angry bruise, red meet blue
+    riddle: Like an angry bruise, red meets blue
   - colour: 6
     riddle: The scattiest of the colours
   - colour: 7
@@ -227,6 +227,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 44b67f7a547b49c49b0f502a2935c668, type: 2}
   - {fileID: 2100000, guid: 6854550deeddc6247b061739881bf2e8, type: 2}
   - {fileID: 2100000, guid: fe49401d04ab6ed4999abea8350aba37, type: 2}
+  wireCutterPrefab: {fileID: 0}
+  wireCutterLocations: []
 --- !u!1 &5199584383459216569
 GameObject:
   m_ObjectHideFlags: 0

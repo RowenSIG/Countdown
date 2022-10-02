@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3611600870641405513}
   - component: {fileID: 1479850663439547733}
   - component: {fileID: 4608679899921965186}
-  - component: {fileID: 2441031066392548270}
   m_Layer: 0
   m_Name: RiddleBackground
   m_TagString: Untagged
@@ -83,20 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2441031066392548270
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1408036924327851222}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1926160613546316322
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,12 +244,12 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5434414648850072139}
-  m_Text: Riddle
+  m_Text: 'Riddle '
   m_OffsetZ: 0
   m_CharacterSize: 0.4
   m_LineSpacing: 1
   m_Anchor: 4
-  m_Alignment: 0
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 40
   m_FontStyle: 0

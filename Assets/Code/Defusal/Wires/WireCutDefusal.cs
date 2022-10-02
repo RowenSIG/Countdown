@@ -88,6 +88,14 @@ public class WireCutDefusal : DefusalBase
     {
         cutters.EnsureActive(true);
     }
+    
+
+    protected override void CancelInternal()
+    {
+        base.CancelInternal();
+        cutters.EnsureActive(false);
+    }
+
 
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {

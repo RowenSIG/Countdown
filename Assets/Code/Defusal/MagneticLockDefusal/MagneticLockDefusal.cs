@@ -12,25 +12,12 @@ public class MagneticLockDefusal : DefusalBase
     public Battery boardBattery1;
     public Battery boardBattery2;
 
-    public NumberDigits requiredNumber;
-    public NumberDigits actualNumber;
+    public NumberDigits requiredNumberTens;
+    public NumberDigits requiredNumberOnes;
+    public NumberDigits actualNumberTens;
+    public NumberDigits actualNumberOnes;
 
     private MagneticLockDefusalInstruction Progress => progress as MagneticLockDefusalInstruction;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        var instruction = new MagneticLockDefusalInstruction();
-        instruction.voltage = 8;
-        SetupWithInstruction(instruction);
-
-        progress = new MagneticLockDefusalInstruction();
-        Progress.voltage = 8;
-        Progress.battery1 = 5;
-        Progress.battery2 = 3;
-    }
-
 
     protected override void UpdateInternal()
     {
@@ -57,8 +44,19 @@ public class MagneticLockDefusal : DefusalBase
 
     protected override void SetupInternal()
     {
+        boardBattery1.gameObject.EnsureActive(false);
+        boardBattery2.gameObject.EnsureActive(false);
         handBattery1.gameObject.EnsureActive(false);
         handBattery2.gameObject.EnsureActive(false);
+
+        var batteryInstruction = instruction as MagneticLockDefusalInstruction;
+        var tens = batteryInstruction.Voltage / 10;
+        var ones = batteryInstruction.Voltage % 10;
+        requiredNumberTens.Set(tens);
+        requiredNumberOnes.Set(ones);
+
+        actualNumberTens.Clear();
+        actualNumberOnes.Clear();
     }
 
     protected override void StartDefusalInternal()
@@ -66,15 +64,13 @@ public class MagneticLockDefusal : DefusalBase
         boardBattery1.gameObject.EnsureActive(false);
         boardBattery2.gameObject.EnsureActive(false);
 
-        requiredNumber.Show(Progress.voltage);
-        actualNumber.Clear();
-
         ShowHandBatteries();
     }
 
     private void ShowHandBatteries()
     {
-        actualNumber.Clear();
+        actualNumberTens.Clear();
+        actualNumberOnes.Clear();
 
         if (Progress.battery1 != 0)
         {
@@ -98,13 +94,24 @@ public class MagneticLockDefusal : DefusalBase
         }
     }
 
+    protected override void CancelInternal()
+    {
+        base.CancelInternal();
+        handBattery1.gameObject.EnsureActive(false);
+        handBattery2.gameObject.EnsureActive(false);
+    }
+
+
 
     private IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
         yield return new WaitForSeconds(0.2f);
 
-        actualNumber.Show(Progress.voltage);
+        var tens = Progress.Voltage / 10;
+        var ones = Progress.Voltage % 10;
+        actualNumberTens.Set(tens);
+        actualNumberOnes.Set(ones);
 
         yield return new WaitForSeconds(1f);
 

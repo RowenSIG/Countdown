@@ -51,6 +51,13 @@ public class ScrewDriverDefusal : DefusalBase
             screw.EnsureActive(true);
     }
 
+    protected override void CancelInternal()
+    {
+        base.CancelInternal();
+        screwDriver.EnsureActive(false);
+    }
+
+
     private void SetScrewDriverPos(int zIndex)
     {
         currentScrewIndex = zIndex;

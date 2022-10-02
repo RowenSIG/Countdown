@@ -8,7 +8,7 @@ public class NumberDigits : MonoBehaviour
     public GameObject noValue;
 
     int? value;
-    public void Show(int zValue)
+    public void Set(int zValue)
     {
         if (value.HasValue && value == zValue)
             return;

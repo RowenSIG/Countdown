@@ -11,6 +11,6 @@ public class Battery : CollectableItem
     public void Setup(int zVoltage)
     {
         voltage = zVoltage;
-        number.Show(voltage);
+        number.Set(voltage);
     }
 }

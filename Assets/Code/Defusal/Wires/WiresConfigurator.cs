@@ -97,7 +97,8 @@ public class WiresConfigurator : DefusalConfigurator
         var rand = Random.Range(0, tempList.Count);
         var chosen = tempList[rand];
 
-        riddleText.text = chosen.riddle;
+        var wrapped = FixRiddleLength(chosen.riddle);
+        riddleText.text = wrapped;
     }
 
     private void ChooseWireCutterLocation()
@@ -135,5 +136,21 @@ public class WiresConfigurator : DefusalConfigurator
     private void ResetChosenColours()
     {
         chosenColours.Clear();
+    }
+
+
+    private string FixRiddleLength(string zRiddle)
+    {
+        var charlimit = 18;
+
+        //ummmmm
+        if(zRiddle.Length < charlimit)
+            return zRiddle;
+
+        var firstSpace = zRiddle.IndexOf(' ', charlimit);
+        if(firstSpace < 0)
+            return zRiddle;
+        var sub = zRiddle.Insert(firstSpace, "\n");
+        return sub;
     }
 }

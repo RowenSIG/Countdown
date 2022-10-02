@@ -16,7 +16,7 @@ public class NumericalDisplay : MonoBehaviour
             var numberIndex = i;
             var number = numbers[numberIndex];
             
-            number.Show(value);
+            number.Set(value);
         }
         var clearCount = zList.Count - numbers.Count;
         for(int i = 0 ; i < clearCount; i++)

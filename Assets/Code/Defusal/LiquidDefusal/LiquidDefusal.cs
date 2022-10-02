@@ -20,21 +20,15 @@ public class LiquidDefusal : DefusalBase
     protected override void Awake()
     {
         base.Awake();
-    
-        var instruction = new LiquidDefusalInstruction();
-        instruction.colourOrder = new List<eColour> { eColour.BLUE, eColour.RED };
-        SetupWithInstruction(instruction);
-
-        progress = new LiquidDefusalInstruction();
-        Progress.colourOrder = new List<eColour>() { eColour.BLUE, eColour.RED };
-
     }
 
     protected override void UpdateInternal()
     {
+        if(Progress.haveBeaker == false)
+            return;
+            
         //just check if we're clicking to pour:
         bool pour = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
-
         pour |= Input.GetKeyDown(KeyCode.E);
 
         if(pour)
@@ -61,15 +55,23 @@ public class LiquidDefusal : DefusalBase
     }
 
     protected override void StartDefusalInternal()
-    {
+    {        
         //make sure the colour of our renderer is correct:
         var colour = ColourProvider.GetColourMix(Progress.colourOrder);
 
         beakerRenderer.material = ColourProvider.GetMaterial(colour);
-        beaker.EnsureActive(true);
+        
+        beaker.EnsureActive(Progress.haveBeaker);
+
         beakerFilling.EnsureActive(true);
 
         receptacleFilling.EnsureActive(false);
+    }
+
+    protected override void CancelInternal()
+    {
+        base.CancelInternal();
+        beaker.EnsureActive(false);
     }
 
 

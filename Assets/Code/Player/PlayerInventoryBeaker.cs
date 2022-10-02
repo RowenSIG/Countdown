@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInventoryBeaker : PlayerInventoryItem
 {
-    private List<eColour> colourOrder = new List<eColour>();
+    public List<eColour> colourOrder = new List<eColour>();
     public MeshRenderer fillRenderer;
     public override void Collected(CollectableItem zItem)
     {

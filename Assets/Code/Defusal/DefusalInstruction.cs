@@ -44,7 +44,7 @@ public class WireCutDefusalInstruction : DefusalInstruction
 
     public List<eColour> wireColours = new List<eColour>();
     public int chosenWireIndex;
-
+    public bool haveWireCutters = false;
     protected override bool MatchInternal(DefusalInstruction zInstruction)
     {
         var zWireCut = zInstruction as WireCutDefusalInstruction;
@@ -63,6 +63,7 @@ public class LiquidDefusalInstruction : DefusalInstruction
 
     public List<eColour> colourOrder = new List<eColour>();
     public eColour FinalColour => ColourProvider.GetColourMix(colourOrder);
+    public bool haveBeaker = false;
 
     protected override bool MatchInternal(DefusalInstruction zInstruction)
     {
@@ -80,7 +81,7 @@ public class MagneticLockDefusalInstruction : DefusalInstruction
 {
     public override eDefusalType Type => eDefusalType.MAGNETIC_LOCK;
 
-    public int voltage;
+    public int Voltage => battery1 + battery2;
 
     public int battery1;
     public int battery2;
@@ -89,7 +90,7 @@ public class MagneticLockDefusalInstruction : DefusalInstruction
     {
         var zMagneticLock = zInstruction as MagneticLockDefusalInstruction;
 
-        if (zMagneticLock.voltage != voltage)
+        if (zMagneticLock.Voltage != Voltage)
             return false;
 
         Defused = true;
@@ -103,6 +104,7 @@ public class ScrewDriverDefusalInstruction : DefusalInstruction
 
     public List<bool> order = new List<bool>();
     private int successes = 0;
+    public bool haveScrewDriver = false;
 
     public int attemptIndex;
     protected override bool MatchInternal(DefusalInstruction zInstruction)

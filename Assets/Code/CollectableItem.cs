@@ -5,8 +5,6 @@ using UnityEngine;
 
 public enum eCollectableItem
 {
-    INVALID = 0,
-
     WIRE_CUTTERS = 1,
     LIQUID_BEAKER = 3,
     SCREW_DRIVER = 4,

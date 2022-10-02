@@ -22,28 +22,18 @@ public class CodePadDefusal : DefusalBase
 
     protected override void Awake()
     {
-        var instruction = new CodeDefusalInstruction();
-        instruction.code = new List<int>() { 1, 2, 3 };
-        SetupWithInstruction(instruction);
-
-        progress = new CodeDefusalInstruction();
-
         finger.gameObject.EnsureActive(false);
-
         base.Awake();
     }
 
     protected override void SetupInternal()
     {
-        progress = new CodeDefusalInstruction();
         finger.gameObject.EnsureActive(false);
     }
 
     protected override void StartDefusalInternal()
     {
         finger.gameObject.EnsureActive(true);
-        progress = new CodeDefusalInstruction();
-        
         SetFingerPos(0);
     }
 
@@ -60,6 +50,12 @@ public class CodePadDefusal : DefusalBase
         CheckPress();
 
         UpdateDisplay();
+    }
+
+    protected override void CancelInternal()
+    {
+        base.CancelInternal();
+        finger.gameObject.EnsureActive(false);
     }
 
     private void CheckNavigation()
@@ -132,6 +128,7 @@ public class CodePadDefusal : DefusalBase
         
         if(Defused)
         {
+            finger.gameObject.EnsureActive(false);
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
         }

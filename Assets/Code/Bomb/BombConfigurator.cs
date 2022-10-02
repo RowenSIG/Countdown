@@ -18,7 +18,6 @@ public class BombConfigurator : MonoBehaviour
         new DefusalCost() { defusal = eDefusalType.MAGNETIC_LOCK, cost = 3},
         new DefusalCost() { defusal = eDefusalType.SCREW_DRIVER_PANEL, cost = 2},
         new DefusalCost() { defusal = eDefusalType.TURNY_HANDLE, cost = 2},
-        new DefusalCost() { defusal = eDefusalType.WIRE_CUT, cost = 2},
     };
 
     int numDefusals = 3;
@@ -36,7 +35,7 @@ public class BombConfigurator : MonoBehaviour
     {
         Instance = this;
     }
-    public void Start()
+    public void Configure()
     {
         ResetConfigurators();
         ConfigureLevel();
@@ -62,8 +61,8 @@ public class BombConfigurator : MonoBehaviour
         foreach(var cost in defusalCosts)
             tempList.Add(cost.defusal);
 
-        // var selection = tempList.GetRandom(numDefusals);
-        var selection = new List<eDefusalType>() { eDefusalType.WIRE_CUT, eDefusalType.TURNY_HANDLE, eDefusalType.SCREW_DRIVER_PANEL };
+        var selection = tempList.GetRandom(numDefusals);
+        selection = new List<eDefusalType>() { eDefusalType.MAGNETIC_LOCK, eDefusalType.LIQUID, eDefusalType.SCREW_DRIVER_PANEL };
 
         Debug.Log($"BombConfigurator - Selection [{selection[0]}], [{selection[1]}], [{selection[2]}]");
         return selection;
