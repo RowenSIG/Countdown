@@ -19,16 +19,26 @@ public class WiresConfigurator : DefusalConfigurator
     public List<Material> wireMaterials;
     private eColour chosenColour;
 
+    public WireCutter wireCutterPrefab;
+    public List<Transform> wireCutterLocations;
+    private int chosenWireCutterLocation;
+    private WireCutter wireCutter;
+
+
     private List<eColour> chosenColours = new List<eColour>();
 
     public override void ConfigureDefusal()
     {
         ResetChosenColours();
+        ResetWireCutter();
 
         ChooseWireColours();
         ChooseRandomWireColour();
         ChooseAndAssignRiddleForColour();
         AssignColoursToMaterials();
+
+        ChooseWireCutterLocation();
+        AssignWireCutterToLocation();
     }
 
     public override void RefreshDefusal() 
@@ -36,6 +46,7 @@ public class WiresConfigurator : DefusalConfigurator
         ChooseRandomWireColour();
         ChooseAndAssignRiddleForColour();
         AssignColoursToMaterials();
+        AssignWireCutterToLocation();
     }
 
     public override DefusalInstruction GetDefusalInstruction()
@@ -89,6 +100,11 @@ public class WiresConfigurator : DefusalConfigurator
         riddleText.text = chosen.riddle;
     }
 
+    private void ChooseWireCutterLocation()
+    {
+        chosenWireCutterLocation = Random.Range(0 , wireCutterLocations.Count);
+    }
+
     private void AssignColoursToMaterials()
     {
         for(int i = 0 ; i < chosenColours.Count; i++)
@@ -99,6 +115,18 @@ public class WiresConfigurator : DefusalConfigurator
             var color = ColourProvider.GetColor(colour);
             material.SetColor("Main", color);
         }
+    }
+
+    private void AssignWireCutterToLocation()
+    {
+        var location = wireCutterLocations[chosenWireCutterLocation];
+        var clone = GameObject.Instantiate(wireCutterPrefab, location);
+        wireCutter = clone;
+    }
+
+    private void ResetWireCutter()
+    {
+        GameObject.Destroy(wireCutter.gameObject);
     }
 
     private void ResetChosenColours()

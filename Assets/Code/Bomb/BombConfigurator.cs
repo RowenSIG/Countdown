@@ -62,7 +62,8 @@ public class BombConfigurator : MonoBehaviour
         foreach(var cost in defusalCosts)
             tempList.Add(cost.defusal);
 
-        var selection = tempList.GetRandom(numDefusals);
+        // var selection = tempList.GetRandom(numDefusals);
+        var selection = new List<eDefusalType>() { eDefusalType.CODE, eDefusalType.LIQUID, eDefusalType.MAGNETIC_LOCK };
 
         Debug.Log($"BombConfigurator - Selection [{selection[0]}], [{selection[1]}], [{selection[2]}]");
         return selection;

@@ -8,7 +8,6 @@ public enum eCollectableItem
     INVALID = 0,
 
     WIRE_CUTTERS = 1,
-    ELECTRIC_WIRE = 2,
     LIQUID_BEAKER = 3,
     SCREW_DRIVER = 4,
     BATTERY = 5,

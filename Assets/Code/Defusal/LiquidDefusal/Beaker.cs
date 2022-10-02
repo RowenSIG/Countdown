@@ -14,6 +14,7 @@ public class Beaker : CollectableItem
         colour = zColour;
         var material = ColourProvider.GetMaterial(zColour);
         fillingRenderer.material = material;
+        filling.EnsureActive(true);
     }
 
     public void Reset()

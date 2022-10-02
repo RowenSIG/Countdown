@@ -10,7 +10,7 @@ public class CodePadConfigurator : DefusalConfigurator
 
     private List<CodeNumberLocation> chosenLocations = new List<CodeNumberLocation>();
     private List<int> code = new List<int>();
-    
+
     public override void ConfigureDefusal()
     {
         ResetCode();
@@ -21,7 +21,7 @@ public class CodePadConfigurator : DefusalConfigurator
         AssignCodeDigitsToLocations();
     }
 
-    public override void RefreshDefusal() 
+    public override void RefreshDefusal()
     {
         ResetCode();
         ResetLocations();
@@ -34,7 +34,7 @@ public class CodePadConfigurator : DefusalConfigurator
     {
         var instruction = new CodeDefusalInstruction();
         instruction.code.AddRange(code);
-        return instruction;        
+        return instruction;
     }
 
     public override void Reset()
@@ -46,7 +46,7 @@ public class CodePadConfigurator : DefusalConfigurator
 
     private void GenerateCode()
     {
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             var rand = Random.Range(0, 9);
             code.Add(rand);
@@ -58,7 +58,7 @@ public class CodePadConfigurator : DefusalConfigurator
         chosenLocations.Clear();
 
         var tempList = new List<CodeNumberLocation>(allLocations);
-        for(int i = 0 ; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             var rand = Random.Range(0, tempList.Count);
             chosenLocations.Add(tempList[rand]);
@@ -67,17 +67,18 @@ public class CodePadConfigurator : DefusalConfigurator
     }
     private void AssignCodeDigitsToLocations()
     {
-        for(int i = 0 ; i < 3 ; i ++)
+        for (int i = 0; i < 3; i++)
         {
             var number = code[i];
             var location = chosenLocations[i];
 
-            location.SetCodeNumber(i, number);
+            var readableIndex = i + 1;
+            location.SetCodeNumber(readableIndex, number);
         }
     }
     private void ResetLocations()
     {
-        foreach(var location in allLocations)
+        foreach (var location in allLocations)
         {
             location.Reset();
         }

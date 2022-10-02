@@ -15,13 +15,14 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public float turnSpeedY;
     public float turnSpeedX;
+    public float jumpSpeed;
 
     public float maxLookUpAngle;
     public float maxLookDownAngle;
 
     public float interactionDistance;
 
-    public List<CollectableItem> collectedItems = new List<CollectableItem>();
+    public PlayerInventory inventory;
 
     public Transform upDownTransform;
 
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
         if (Room.Instance.Mode == eMode.NORMAL)
         {
             UpdateMovement();
+            UpdateJump();
         }
     }
 
@@ -102,13 +104,43 @@ public class Player : MonoBehaviour
         upDownTransform.rotation = pitch * upDownTransform.rotation;
     }
 
+    void UpdateJump()
+    {
+        var jumpButton = GetJumpInput();
+        var onGround = false;
+
+        //ground check
+
+        var layerMask = LayerMask.GetMask("Blockers");
+        layerMask |= LayerMask.GetMask("Floor");
+
+        var ray = new Ray(transform.position, Vector3.down);
+        var hit = Physics.Raycast(ray, out var hitInfo, interactionDistance, layerMask);
+
+        if (hit)
+        {
+            //prox?
+            var hitLocation = hitInfo.point;
+            var dist = (hitLocation - transform.position).magnitude;
+            var currentHeight = transform.localScale.y + 0.05f; //just get a little closer
+            if (dist <= currentHeight)
+                onGround = true;
+        }
+
+        if(jumpButton && onGround)
+        {
+            body.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
+        }
+    }
+
     void CheckPointingRaycast()
     {
         var screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
         var ray = Camera.main.ScreenPointToRay(screenCenter);
 
         var layerMask = LayerMask.GetMask("Interactives");
-        var hit = Physics.Raycast(ray, out var hitInfo, interactionDistance, layerMask);
+        var blockerLayerMask = LayerMask.GetMask("Blockers");
+        var hit = Physics.Raycast(ray, out var hitInfo, interactionDistance, layerMask | blockerLayerMask);
 
         if (hit)
         {
@@ -136,7 +168,7 @@ public class Player : MonoBehaviour
 
     public void GainCollectableItem(CollectableItem zItem)
     {
-        collectedItems.Add(zItem);
+        inventory.TryAddItem(zItem);
     }
 
     void OnDrawGizmos()
@@ -169,6 +201,24 @@ public class Player : MonoBehaviour
                 break;
         }
         return (action1, action2);
+    }
+
+    bool GetJumpInput()
+    {
+        bool action = false;
+
+        switch (playerInput)
+        {
+            default:
+            case ePlayerInput.KEYBOARD:
+                action = Input.GetKeyDown(KeyCode.Space);
+                break;
+
+            case ePlayerInput.GAMEPAD:
+                action = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_UP);
+                break;
+        }
+        return action;
     }
     Vector2 GetMoveVector()
     {
@@ -209,8 +259,8 @@ public class Player : MonoBehaviour
 
                 look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
                 look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
-                look.y -= Input.GetKey(KeyCode.UpArrow) ? 1 : 0;
-                look.y += Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
+                look.y += Input.GetKey(KeyCode.UpArrow) ? 1 : 0; //weird inversions
+                look.y -= Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
 
                 look.x = Mathf.Clamp(look.x, -1f, 1f);
                 look.y = Mathf.Clamp(look.y, -1f, 1f);
