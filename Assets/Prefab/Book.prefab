@@ -49,8 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionLabel1: Open
   actionLabel2: 
-  useLimit: 0
-  animator: {fileID: 0}
+  useLimit: 1
+  animator: {fileID: 6295591855430539565}
 --- !u!95 &6295591855430539565
 Animator:
   serializedVersion: 3
