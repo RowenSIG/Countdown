@@ -690,6 +690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08b81526b69c404ebd17283cb59c2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionLabel1: Open
+  actionLabel2: 
   useLimit: 1
   animator: {fileID: 3466711596013963690}
 --- !u!1 &8276359037626768252

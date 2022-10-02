@@ -40,11 +40,15 @@ public class ColourProvider : MonoBehaviour
     public static Color GetColor(eColour zColour)
     {
         var match = Instance.colours.Find(p => p.colour == zColour);
+        if(match == null)
+            return default;
         return match.color;
     }
     public static Material GetMaterial(eColour zColour)
     {
         var match = Instance.colours.Find(p => p.colour == zColour);
+        if(match == null)
+            return null;
         return match.material;
     }
 

@@ -113,7 +113,7 @@ public class WiresConfigurator : DefusalConfigurator
             var colour = chosenColours[i];
 
             var color = ColourProvider.GetColor(colour);
-            material.SetColor("Main", color);
+            material.SetColor("_Color", color);
         }
     }
 

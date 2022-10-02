@@ -18,10 +18,11 @@ public class CollectableItem : InteractiveItem
 
     public Animation useAnimation;
 
-    public void Collect()
+    public override void Interact()
     {
         //just disappear
         gameObject.EnsureActive(false);
+        Room.Instance.ItemCollected(this);
     }
 
     public override bool CanInteract()

@@ -7,7 +7,7 @@ public class AnimatingInteractiveItem : InteractiveItem
     public int useLimit;
     public Animator animator;
 
-    public void Interact()
+    public override void Interact()
     {
         if(useLimit > 0)
         {

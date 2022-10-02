@@ -13,4 +13,6 @@ public abstract class InteractiveItem : MonoBehaviour
     public string ActionLabel2 => actionLabel2;
 
     public abstract bool CanInteract();
+
+    public abstract void Interact(); 
 }

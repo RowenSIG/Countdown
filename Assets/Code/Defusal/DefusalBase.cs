@@ -52,6 +52,11 @@ public abstract class DefusalBase : InteractiveItem
             return false;
         return true;
     }
+
+    public override void Interact()
+    {
+        Room.Instance.StartDefusal(this);
+    }
     
     protected virtual void Awake()
     {

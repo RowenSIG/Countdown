@@ -31,9 +31,10 @@ public class Room : MonoBehaviour
     public void CurrentPlayerPointingTarget(Collider zCollider)
     {
         //get this object's interaction possibilities...
-        currentInteractiveTarget = zCollider.GetComponent<InteractiveItem>();
+        currentInteractiveTarget = zCollider.GetComponentInParent<InteractiveItem>();
 
-        if(currentInteractiveTarget == null)
+        if(currentInteractiveTarget == null
+            || currentInteractiveTarget.CanInteract() == false)
         {
             CurrentPlayerPointingAtNothing();
             return;
@@ -50,15 +51,9 @@ public class Room : MonoBehaviour
 
     public void InteractWithTarget()
     {
-        switch(currentInteractiveTarget)
+        if(currentInteractiveTarget != null && currentInteractiveTarget.CanInteract())
         {
-            case CollectableItem collectable:
-                CollectItem(collectable);
-                break;
-
-            case DefusalBase defusal:
-                AttemptDefusal(defusal);
-                break;
+            currentInteractiveTarget.Interact();
         }
     }
 
@@ -73,10 +68,9 @@ public class Room : MonoBehaviour
         }
     }
 
-    private void CollectItem(CollectableItem zCollectable)
+    public void ItemCollected(CollectableItem zCollectable)
     {
         var collectableType = zCollectable.Type;
-        zCollectable.Collect();
         Player.Instance.GainCollectableItem(zCollectable);
     }
 
@@ -88,7 +82,7 @@ public class Room : MonoBehaviour
         CurrentDefusal = null;
     }
 
-    private void AttemptDefusal(DefusalBase zDefusal)
+    public void StartDefusal(DefusalBase zDefusal)
     {
         //here we have to enter into defusal mode...
         //as this is unique to each defusal instance, i reckon they should handle that.
