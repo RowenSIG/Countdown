@@ -262,8 +262,8 @@ public class Player : MonoBehaviour
         var look = Vector2.zero;
 
         //mouse movement?
-        look.x += Input.GetAxis("Mouse X");
-        look.y += Input.GetAxis("Mouse Y");
+        // look.x += Input.GetAxis("Mouse X");
+        // look.y += Input.GetAxis("Mouse Y");
 
         look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
         look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;

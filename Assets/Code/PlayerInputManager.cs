@@ -1,3 +1,4 @@
+#define TOUCH_CONTROLS
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -156,7 +157,7 @@ public static class PlayerInputManager
     }
 
 
-#if UNITY_ANDROID
+#if TOUCH_CONTROLS
 
     public static bool GetButtonDown(int zPadIndex, ePadButton zButton)
     {

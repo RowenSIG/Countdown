@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class PlayerTouchControls : MonoBehaviour
 {
     public static PlayerTouchControls Instance { get; private set; }
     private Vector2? touch1Down;
     private Vector2? touch2Down;
+
+    private Rect leftOfScreen = new Rect(0, 0, Screen.width * 0.4f, Screen.height);
+    private Rect rightOfScreen = new Rect(0.6f, 0, Screen.width * 0.4f, Screen.height);
 
     [System.Serializable]
     private class GamePadState
@@ -66,7 +70,7 @@ public class PlayerTouchControls : MonoBehaviour
                 from = zDown.Value;
             }
 
-            var dir = pos - from;
+            var dir = (pos - from).normalized;
             return (from, dir);
         }
     }
