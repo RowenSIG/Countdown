@@ -82,6 +82,7 @@ public class BombConfigurator : MonoBehaviour
 
         var selection = tempList.GetRandom(numDefusals);
         selection = new List<eDefusalType>() { eDefusalType.MAGNETIC_LOCK, eDefusalType.LIQUID, eDefusalType.SCREW_DRIVER_PANEL };
+    //    selection = new List<eDefusalType>() { eDefusalType.CODE, eDefusalType.TURNY_HANDLE, eDefusalType.WIRE_CUT };
 
         Debug.Log($"BombConfigurator - Selection [{selection[0]}], [{selection[1]}], [{selection[2]}]");
         

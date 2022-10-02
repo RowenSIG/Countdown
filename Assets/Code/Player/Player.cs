@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ePlayerInput
-{
-    KEYBOARD = 0,
-    GAMEPAD = 1,
-}
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
-    public ePlayerInput playerInput;
     public Rigidbody body;
     public float moveSpeed;
     public float turnSpeedY;
@@ -31,12 +25,13 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;       
+        Instance = this;
         ReturnToSpawn();
     }
 
     void OnDestroy()
     {
+        Cursor.lockState = CursorLockMode.None;
         Instance = null;
     }
 
@@ -66,6 +61,13 @@ public class Player : MonoBehaviour
             UpdateLook();
             CheckPointingRaycast();
             CheckInteractions();
+
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (PlaySession.Paused)
+        {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -151,7 +153,7 @@ public class Player : MonoBehaviour
                 onGround = true;
         }
 
-        if(jumpButton && onGround)
+        if (jumpButton && onGround)
         {
             body.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
         }
@@ -217,19 +219,14 @@ public class Player : MonoBehaviour
         bool action1 = false;
         bool action2 = false;
 
-        switch (playerInput)
-        {
-            default:
-            case ePlayerInput.KEYBOARD:
-                action1 = Input.GetKeyDown(KeyCode.E);
-                action2 = Input.GetKeyDown(KeyCode.F);
-                break;
+        action1 = Input.GetKeyDown(KeyCode.E);
+        action2 = Input.GetKeyDown(KeyCode.F);
 
-            case ePlayerInput.GAMEPAD:
-                action1 = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
-                action2 = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_LEFT);
-                break;
-        }
+        action1 |= Input.GetMouseButtonDown(0);
+        action2 |= Input.GetMouseButtonDown(1);
+
+        action1 |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        action2 |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_LEFT);
         return (action1, action2);
     }
 
@@ -237,71 +234,52 @@ public class Player : MonoBehaviour
     {
         bool action = false;
 
-        switch (playerInput)
-        {
-            default:
-            case ePlayerInput.KEYBOARD:
-                action = Input.GetKeyDown(KeyCode.Space);
-                break;
-
-            case ePlayerInput.GAMEPAD:
-                action = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_UP);
-                break;
-        }
+        action |= Input.GetKeyDown(KeyCode.Space);
+        action |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_UP);
         return action;
     }
     Vector2 GetMoveVector()
     {
         var move = Vector2.zero;
 
-        switch (playerInput)
-        {
-            default:
-            case ePlayerInput.KEYBOARD:
-                if (Input.GetKey(KeyCode.W))
-                    move.y += 1;
-                if (Input.GetKey(KeyCode.S))
-                    move.y -= 1;
-                if (Input.GetKey(KeyCode.A))
-                    move.x -= 1;
-                if (Input.GetKey(KeyCode.D))
-                    move.x += 1;
-                return move;
+        if (Input.GetKey(KeyCode.W))
+            move.y += 1;
+        if (Input.GetKey(KeyCode.S))
+            move.y -= 1;
+        if (Input.GetKey(KeyCode.A))
+            move.x -= 1;
+        if (Input.GetKey(KeyCode.D))
+            move.x += 1;
 
-            case ePlayerInput.GAMEPAD:
-                move.y += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_VERTICAL);
-                move.x += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_HORIZONTAL);
-                return move;
-        }
+        move.y += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_VERTICAL);
+
+        move.x += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_HORIZONTAL);
+        return move;
     }
 
     Vector2 GetLookVector()
     {
         var look = Vector2.zero;
 
-        switch (playerInput)
-        {
-            default:
-            case ePlayerInput.KEYBOARD:
-                //mouse movement?
-                // move.x = Input.GetAxis("Mouse X");
-                // move.y = Input.GetAxis("Mouse Y");
+        //mouse movement?
+        look.x += Input.GetAxis("Mouse X");
+        look.y += Input.GetAxis("Mouse Y");
 
-                look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
-                look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
-                look.y += Input.GetKey(KeyCode.UpArrow) ? 1 : 0; //weird inversions
-                look.y -= Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
+        look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
+        look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
+        look.y += Input.GetKey(KeyCode.UpArrow) ? 1 : 0; //weird inversions
+        look.y -= Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
 
-                look.x = Mathf.Clamp(look.x, -1f, 1f);
-                look.y = Mathf.Clamp(look.y, -1f, 1f);
+        look.x = Mathf.Clamp(look.x, -1f, 1f);
+        look.y = Mathf.Clamp(look.y, -1f, 1f);
 
-                return look;
+        look.y += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_VERTICAL);
+        look.x += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_HORIZONTAL);
+        return look;
+    }
 
-            case ePlayerInput.GAMEPAD:
-                look.y += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_VERTICAL);
-                look.x += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_HORIZONTAL);
-                return look;
-        }
+    public void PreExplode()
+    {
 
     }
 }

@@ -89,6 +89,7 @@ public class LiquidDefusal : DefusalBase
         if(Defused)
         {
             yield return new WaitForSeconds(0.7f);
+            Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
         

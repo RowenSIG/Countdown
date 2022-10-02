@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
     public void Reset()
     {
         currentlyShowing = 0;
-        foreach(var item in collectableItems)
+        foreach (var item in collectableItems)
             item.Reset();
     }
 
@@ -70,19 +70,10 @@ public class PlayerInventory : MonoBehaviour
 
     void CheckNextItem()
     {
-        var inputType = Player.Instance.playerInput;
         var action = false;
 
-        switch (inputType)
-        {
-            case ePlayerInput.KEYBOARD:
-                action = Input.GetKeyDown(KeyCode.Period);
-                break;
-
-            case ePlayerInput.GAMEPAD:
-                action = PlayerInputManager.GetButtonDown(0, ePadButton.RIGHT_BUMPER);
-                break;
-        }
+        action |= Input.GetKeyDown(KeyCode.Period);
+        action |= PlayerInputManager.GetButtonDown(0, ePadButton.RIGHT_BUMPER);
 
         if (action)
         {
@@ -101,19 +92,10 @@ public class PlayerInventory : MonoBehaviour
 
     void CheckPrevItem()
     {
-        var inputType = Player.Instance.playerInput;
         var action = false;
 
-        switch (inputType)
-        {
-            case ePlayerInput.KEYBOARD:
-                action = Input.GetKeyDown(KeyCode.Comma);
-                break;
-
-            case ePlayerInput.GAMEPAD:
-                action = PlayerInputManager.GetButtonDown(0, ePadButton.LEFT_BUMPER);
-                break;
-        }
+        action |= Input.GetKeyDown(KeyCode.Comma);
+        action |= PlayerInputManager.GetButtonDown(0, ePadButton.LEFT_BUMPER);
         if (action)
         {
             for (int i = 0; i < collectableItems.Count; i++)

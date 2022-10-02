@@ -67,6 +67,8 @@ public class MagneticLockConfigurator : DefusalConfigurator
 
         var rand2 = Random.Range(0, tempList.Count);
         voltage2 = tempList[rand2];
+
+        Debug.Log($"MagneticLockConfigurator: Battery rand[{rand1}, {rand2}] of [{singleBatteryVoltages.Count}] => voltages[{voltage1},{voltage2}]");
     }
 
     private void SpawnBatteries()

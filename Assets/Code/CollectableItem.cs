@@ -23,6 +23,10 @@ public class CollectableItem : InteractiveItem
         Room.Instance.ItemCollected(this);
     }
 
+    public override void Reset()
+    {
+        gameObject.EnsureActive(true);
+    }
     public override bool CanInteract()
     {
         //does player already have one?

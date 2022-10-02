@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2101958916309267103}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 368486890841257231}
   - component: {fileID: 310488298458002801}
   - component: {fileID: 898180494603384234}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 4392419676530606590}
   - component: {fileID: 8387586188329473158}
   - component: {fileID: 8839243647536572185}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Quad (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 7018145953035677117}
   - component: {fileID: 7018145953035677106}
   - component: {fileID: 7018145953035677107}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pattern3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 7018145953339556441}
   - component: {fileID: 7018145953339556446}
   - component: {fileID: 7018145953339556447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pattern1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 7018145953348334724}
   - component: {fileID: 7018145953348334726}
   - component: {fileID: 7018145953348334727}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 7018145953895252410}
   - component: {fileID: 7018145953895252411}
   - component: {fileID: 7018145953895252408}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pattern0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +606,7 @@ GameObject:
   - component: {fileID: 7291128291634800912}
   - component: {fileID: 594700052976203925}
   - component: {fileID: 7510797414815975403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ScrewDriverHintLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 7018145954908881757}
   - component: {fileID: 7018145954908881746}
   - component: {fileID: 7018145954908881747}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pattern2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

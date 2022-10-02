@@ -37,7 +37,7 @@ public class WireCutDefusal : DefusalBase
 
     void UpdateMovement()
     {
-        var move = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
+        var move = DpadHorizontal();
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
             move += 1;
@@ -62,7 +62,8 @@ public class WireCutDefusal : DefusalBase
 
     void UpdateCutInput()
     {
-        var button = Input.GetKeyDown(KeyCode.E);
+        var button = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        button |= Input.GetKeyDown(KeyCode.E);
         if(button)
         {
             Progress.chosenWireIndex = CurrentColourIndex;
@@ -110,6 +111,7 @@ public class WireCutDefusal : DefusalBase
         if(Defused)
         {
             yield return new WaitForSeconds(0.7f);
+            Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
 

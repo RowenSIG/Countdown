@@ -21,6 +21,8 @@ public class Room : MonoBehaviour
 
     public Transform playerSpawn;
 
+    private List<DefusalBase> defusalProgress = new List<DefusalBase>();
+
     public void Awake()
     {
         Mode = eMode.NORMAL;
@@ -127,6 +129,13 @@ public class Room : MonoBehaviour
     private IEnumerator<YieldInstruction> CoExplode()
     {
         Debug.Log("Explode!");
+        if (CurrentDefusal != null)
+        {
+            CurrentDefusal.Close();
+        }
+        Player.Instance.PreExplode();
+
+        yield return new WaitForSeconds(1f);
 
         Mode = eMode.BOMB_EXPOLODING;
         Bomb.Instance.Explode();
@@ -141,12 +150,21 @@ public class Room : MonoBehaviour
         ConfigureBomb();
         InGameMenu.Instance.Reset();
         Countdown.Instance.Reset();
+        defusalProgress.Clear();
 
         Mode = eMode.NORMAL;
 
         PlaySession.attempts += 1;
     }
 
+    public void DefuseProgress(DefusalBase zDefuse)
+    {
+        defusalProgress.Add(zDefuse);
+        if (defusalProgress.Count >= 3)
+        {
+            BombDefused();
+        }
+    }
 
     public void BombDefused()
     {
@@ -158,4 +176,16 @@ public class Room : MonoBehaviour
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("SuccessScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
+
+
+#if ENABLE_CHEATS
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+            BombDefused();
+        if (Input.GetKeyDown(KeyCode.O))
+            Explode();
+    }
+#endif
 }

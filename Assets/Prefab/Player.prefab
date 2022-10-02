@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 302437681416427195}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0.599, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2816971288319510064}
@@ -178,7 +178,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 302437682973303921}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 676784946b2654143a3a83ce381526b7, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -218,7 +218,7 @@ MonoBehaviour:
   moveSpeed: 12
   turnSpeedY: -28
   turnSpeedX: 50
-  jumpSpeed: 4
+  jumpSpeed: 6
   maxLookUpAngle: 50
   maxLookDownAngle: 70
   interactionDistance: 10

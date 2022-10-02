@@ -17,8 +17,9 @@ public class Beaker : CollectableItem
         filling.EnsureActive(true);
     }
 
-    public void Reset()
+    public override void Reset()
     {
+        base.Reset();
         filling.EnsureActive(false);
     }
 }

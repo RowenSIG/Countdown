@@ -48,11 +48,11 @@ public class TurnyHandleDefusal : DefusalBase
 
     private void CheckTurnyInput()
     {
-        var horizontal = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        var horizontal = DpadHorizontal();
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             horizontal -= 1;
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             horizontal += 1;
 
         if (horizontal < 0)
@@ -115,6 +115,7 @@ public class TurnyHandleDefusal : DefusalBase
         if(Defused)
         {
             yield return new WaitForSeconds(0.7f);
+            Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
 

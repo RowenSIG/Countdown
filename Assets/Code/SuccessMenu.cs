@@ -13,9 +13,9 @@ public class SuccessMenu : MonoBehaviour
     {
         sessionScore.text = PlaySession.attempts.ToString();
 
+        previousBestArea.EnsureActive(SaveGame.BestAttempt.HasValue);
         if(SaveGame.BestAttempt.HasValue)
         {
-            previousBestArea.EnsureActive(true);
             previousBest.text = SaveGame.BestAttempt.Value.ToString();
         }
     }

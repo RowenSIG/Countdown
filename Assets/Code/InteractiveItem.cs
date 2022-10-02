@@ -14,5 +14,6 @@ public abstract class InteractiveItem : MonoBehaviour
 
     public abstract bool CanInteract();
 
-    public abstract void Interact(); 
+    public abstract void Interact();
+    public virtual void Reset() {} 
 }

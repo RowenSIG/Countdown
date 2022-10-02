@@ -33,7 +33,7 @@ public class AnimatingInteractiveItem : InteractiveItem
     }
 
 
-    public void Reset()
+    public override void Reset()
     {
         uses = 0;
         animator.SetTrigger("Reset");

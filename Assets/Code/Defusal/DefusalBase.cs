@@ -136,5 +136,40 @@ public abstract class DefusalBase : InteractiveItem
         yield return new WaitForSeconds(0.5f);
         busy = false;
     }
+
+
+    
+    float lastDpadHorizontal = 0f;
+    protected float DpadHorizontal()
+    {
+        var thisDpadHorizontal =  PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
+        if(lastDpadHorizontal > 0f && thisDpadHorizontal > 0f)
+        {
+            return 0;
+        }
+        else if(lastDpadHorizontal <0f && thisDpadHorizontal <0f)
+        {
+            return 0;
+        }
+
+        lastDpadHorizontal = thisDpadHorizontal;
+        return thisDpadHorizontal;
+    } 
+    float lastDpadVertical = 0f;
+    protected float DpadVertical()
+    {
+        var thisDpadVertical =  PlayerInputManager.GetAxis(0, ePadAxis.DPAD_VERTICAL);
+        if(lastDpadVertical > 0f && thisDpadVertical > 0f)
+        {
+            return 0;
+        }
+        else if(lastDpadVertical <0f && thisDpadVertical <0f)
+        {
+            return 0;
+        }
+
+        lastDpadVertical = thisDpadVertical;
+        return thisDpadVertical;
+    }
 }
 

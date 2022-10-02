@@ -6415,26 +6415,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1096386707217765021, guid: 0bc35937dcf631349af30dddc3700e1d, type: 3}
-      propertyPath: colourMixes.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096386707217765021, guid: 0bc35937dcf631349af30dddc3700e1d, type: 3}
-      propertyPath: colourMixes.Array.data[5].result
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096386707217765021, guid: 0bc35937dcf631349af30dddc3700e1d, type: 3}
-      propertyPath: colourMixes.Array.data[5].colourOrder.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096386707217765021, guid: 0bc35937dcf631349af30dddc3700e1d, type: 3}
-      propertyPath: colourMixes.Array.data[5].colourOrder.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096386707217765021, guid: 0bc35937dcf631349af30dddc3700e1d, type: 3}
-      propertyPath: colourMixes.Array.data[5].colourOrder.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3586777885799893800, guid: 0bc35937dcf631349af30dddc3700e1d, type: 3}
       propertyPath: m_Name
       value: ColourProvider
@@ -8098,7 +8078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Resulme
+  m_Text: Resume
 --- !u!222 &1642580114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10278,6 +10258,22 @@ PrefabInstance:
     - target: {fileID: 302437682973303921, guid: 08cf8c65d7d5221498fd9553e183c813, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 302437682973303926, guid: 08cf8c65d7d5221498fd9553e183c813, type: 3}
+      propertyPath: moveSpeed
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 302437682973303926, guid: 08cf8c65d7d5221498fd9553e183c813, type: 3}
+      propertyPath: turnSpeedX
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 302437682973303926, guid: 08cf8c65d7d5221498fd9553e183c813, type: 3}
+      propertyPath: turnSpeedY
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 302437682973303927, guid: 08cf8c65d7d5221498fd9553e183c813, type: 3}
+      propertyPath: m_Drag
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 302437682973303927, guid: 08cf8c65d7d5221498fd9553e183c813, type: 3}
       propertyPath: m_Mass

@@ -81,8 +81,8 @@ public class ScrewDriverDefusal : DefusalBase
 
     private void CheckNavigation()
     {
-        var horizontal = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
-        var vertical = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_VERTICAL);
+        var horizontal = DpadHorizontal();
+        var vertical = DpadVertical();
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             horizontal -= 1;
@@ -148,6 +148,7 @@ public class ScrewDriverDefusal : DefusalBase
         {
             screwDriver.EnsureActive(false);
             yield return new WaitForSeconds(0.7f);
+            Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
 

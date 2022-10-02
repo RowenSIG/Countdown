@@ -73,6 +73,7 @@ public class LiquidConfigurator : DefusalConfigurator
         var rand = Random.Range(0, mixes.Count);
         var mix = mixes[rand];
 
+        Debug.Log($"LiquidConfigurator: RandomMix[{rand}]of[{mixes.Count}] = colour[{mix.colourOrder[0]},{mix.colourOrder[1]}]");
         colourOrder.AddRange(mix.colourOrder);
     }
 
@@ -106,7 +107,8 @@ public class LiquidConfigurator : DefusalConfigurator
         var count = 0;
         foreach(var colour in colourOrder)
         {
-            var beaker = setOfBeakers[count];
+            var index = indices[count];
+            var beaker = setOfBeakers[index];
             beaker.Setup(colour);
             count ++;
         }
@@ -114,8 +116,9 @@ public class LiquidConfigurator : DefusalConfigurator
         int numLeft = setOfBeakers.Count - count;
         for(int i = 0 ; i < numLeft; i ++)
         {
+            var index = indices[count];
             var colour = chosenSourceColours[i];
-            var beaker = setOfBeakers[count];
+            var beaker = setOfBeakers[index];
             beaker.Setup(colour);
             count ++;
         }

@@ -58,11 +58,13 @@ public class CodePadDefusal : DefusalBase
         finger.gameObject.EnsureActive(false);
     }
 
+
+
     private void CheckNavigation()
     {
         var currentButton = CurrentButton;
-        var horizontal = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
-        var vertical = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_VERTICAL);
+        var horizontal = DpadHorizontal();
+        var vertical = DpadVertical(); 
 
         if(Input.GetKeyDown(KeyCode.LeftArrow))
             horizontal -= 1;
@@ -72,6 +74,8 @@ public class CodePadDefusal : DefusalBase
             vertical += 1;
         if(Input.GetKeyDown(KeyCode.DownArrow))
             vertical -= 1;
+
+        
 
         if (horizontal < 0 && currentButton.left != null)
         {
@@ -100,7 +104,8 @@ public class CodePadDefusal : DefusalBase
 
     private void CheckPress()
     {
-        var pressButton = Input.GetKeyDown(KeyCode.E);// PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        var pressButton = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        pressButton |= Input.GetKeyDown(KeyCode.E);
         if(pressButton && Progress.code.Count < CodeLength)
         {
             Progress.code.Add(currentButtonValue);
@@ -130,6 +135,7 @@ public class CodePadDefusal : DefusalBase
         {
             finger.gameObject.EnsureActive(false);
             yield return new WaitForSeconds(0.7f);
+            Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
         
@@ -137,7 +143,7 @@ public class CodePadDefusal : DefusalBase
         {
             Room.Instance.Explode();
         }
-    }
+    }    
 }
 
 

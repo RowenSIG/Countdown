@@ -19,6 +19,8 @@ public class MagneticLockDefusal : DefusalBase
 
     private MagneticLockDefusalInstruction Progress => progress as MagneticLockDefusalInstruction;
 
+    public Animator lockOpenAnimator;
+
     protected override void UpdateInternal()
     {
         var place = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
@@ -117,11 +119,17 @@ public class MagneticLockDefusal : DefusalBase
 
         var result = AttemptDefusal(Progress);
 
+        if(result)
+        {
+            lockOpenAnimator.SetTrigger("Play");
+        }
+
         busy= false;
         
         if(Defused)
         {
             yield return new WaitForSeconds(0.7f);
+            Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
         
