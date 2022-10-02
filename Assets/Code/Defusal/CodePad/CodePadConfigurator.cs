@@ -37,6 +37,13 @@ public class CodePadConfigurator : DefusalConfigurator
         return instruction;        
     }
 
+    public override void Reset()
+    {
+        ResetCode();
+        ResetLocations();
+    }
+
+
     private void GenerateCode()
     {
         for(int i = 0; i < 3; i++)

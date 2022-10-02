@@ -7,7 +7,7 @@ public class WiresConfigurator : DefusalConfigurator
 {
     public override eDefusalType Type => eDefusalType.WIRE_CUT;
 
-    public Text riddleText;
+    public TextMesh riddleText;
     
     [System.Serializable]
     public class ColourRiddle
@@ -16,9 +16,10 @@ public class WiresConfigurator : DefusalConfigurator
         public string riddle;
     }
     public List<ColourRiddle> riddles;
+    public List<Material> wireMaterials;
     private eColour chosenColour;
 
-    public List<eColour> chosenColours = new List<eColour>();
+    private List<eColour> chosenColours = new List<eColour>();
 
     public override void ConfigureDefusal()
     {
@@ -27,12 +28,14 @@ public class WiresConfigurator : DefusalConfigurator
         ChooseWireColours();
         ChooseRandomWireColour();
         ChooseAndAssignRiddleForColour();
+        AssignColoursToMaterials();
     }
 
     public override void RefreshDefusal() 
     {
         ChooseRandomWireColour();
         ChooseAndAssignRiddleForColour();
+        AssignColoursToMaterials();
     }
 
     public override DefusalInstruction GetDefusalInstruction()
@@ -41,6 +44,11 @@ public class WiresConfigurator : DefusalConfigurator
         instruction.wireColours.AddRange(chosenColours);
         instruction.chosenWireIndex = chosenColours.IndexOf(chosenColour);
         return instruction;
+    }
+    
+    public override void Reset()
+    {
+        ResetChosenColours();
     }
 
     private void ChooseWireColours()
@@ -79,6 +87,18 @@ public class WiresConfigurator : DefusalConfigurator
         var chosen = tempList[rand];
 
         riddleText.text = chosen.riddle;
+    }
+
+    private void AssignColoursToMaterials()
+    {
+        for(int i = 0 ; i < chosenColours.Count; i++)
+        {
+            var material =wireMaterials[i];
+            var colour = chosenColours[i];
+
+            var color = ColourProvider.GetColor(colour);
+            material.SetColor("Main", color);
+        }
     }
 
     private void ResetChosenColours()

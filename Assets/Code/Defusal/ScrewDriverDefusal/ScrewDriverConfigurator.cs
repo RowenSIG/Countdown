@@ -5,15 +5,15 @@ using UnityEngine;
 public class ScrewDriverConfigurator : DefusalConfigurator
 {
     public override eDefusalType Type => eDefusalType.SCREW_DRIVER_PANEL;
+    public GameObject screwDriverPrefab;
 
     public List<ScrewDriverLocation> locations;
     private int chosenLocation;
     public List<ScrewDriverHintVisual> hintVisuals;
     private int chosenHintVisual;
 
-    public List<bool> order = new List<bool>();
+    private List<bool> order = new List<bool>();
 
-    public GameObject screwDriverPrefab;
 
     public override void ConfigureDefusal()
     {
@@ -46,6 +46,12 @@ public class ScrewDriverConfigurator : DefusalConfigurator
         var instruction = new ScrewDriverDefusalInstruction();
         instruction.order.AddRange(order);
         return instruction;
+    }
+
+    public override void Reset()
+    {
+        ResetLocations();
+        ResetHintVisuals();
     }
 
     private void ResetLocations()

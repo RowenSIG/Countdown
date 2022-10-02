@@ -17,7 +17,7 @@ public class MagneticLockConfigurator : DefusalConfigurator
 
     public override void ConfigureDefusal()
     {
-        ClearBatteries();
+        ResetBatteries();
 
         ChooseTargetVoltage();
         SpawnBatteries();
@@ -26,7 +26,7 @@ public class MagneticLockConfigurator : DefusalConfigurator
 
     public override void RefreshDefusal()
     {
-        ClearBatteries();
+        ResetBatteries();
 
         ChooseTargetVoltage();
         SpawnBatteries();
@@ -40,7 +40,13 @@ public class MagneticLockConfigurator : DefusalConfigurator
         return instruction;
     }
 
-    private void ClearBatteries()
+    
+    public override void Reset()
+    {
+        ResetBatteries();
+    }
+
+    private void ResetBatteries()
     {
         foreach(var battery in batteries)
         {

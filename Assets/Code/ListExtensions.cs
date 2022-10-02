@@ -22,7 +22,7 @@ public static class ListExtensions
             var rand = Random.Range(0, tempList.Count);
             zList.Add((T)tempList[rand]);
 
-            tempList.RemoveAt(i);
+            tempList.RemoveAt(rand);
         }
 
         tempList.Clear();

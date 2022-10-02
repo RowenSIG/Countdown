@@ -5,7 +5,7 @@ using UnityEngine;
 public class TurnyHandleLocation : MonoBehaviour
 {
     public List<Transform> locations;
-    public List<GameObject> turns = new List<GameObject>();
+    private List<GameObject> turns = new List<GameObject>();
 
     public void Setup(List<GameObject> zTurns)
     {

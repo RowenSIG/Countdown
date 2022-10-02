@@ -37,6 +37,12 @@ public class TurnyHandleConfigurator : DefusalConfigurator
         instruction.order.AddRange(turns);
         return instruction;
     }
+        
+    public override void Reset()
+    {
+        ResetLocations();
+    }
+
 
     private void ResetLocations()
     {

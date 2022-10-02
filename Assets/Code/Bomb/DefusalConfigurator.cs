@@ -10,5 +10,7 @@ public abstract class DefusalConfigurator : MonoBehaviour
 
     public abstract void RefreshDefusal();
 
+    public abstract void Reset();
+
     public abstract DefusalInstruction GetDefusalInstruction();
 }

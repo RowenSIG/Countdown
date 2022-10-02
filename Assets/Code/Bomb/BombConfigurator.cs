@@ -38,6 +38,7 @@ public class BombConfigurator : MonoBehaviour
     }
     public void Start()
     {
+        ResetConfigurators();
         ConfigureLevel();
     }
     private void ConfigureLevel()
@@ -48,6 +49,13 @@ public class BombConfigurator : MonoBehaviour
         ConfigureDefusals(chosenDefusals);
     }
 
+    private void ResetConfigurators()
+    {
+        foreach(var configurator in configurators)
+        {
+            configurator.Reset();
+        }
+    }
     private List<eDefusalType> ChooseDefusals()
     {
         var tempList = new List<eDefusalType>();
@@ -55,6 +63,8 @@ public class BombConfigurator : MonoBehaviour
             tempList.Add(cost.defusal);
 
         var selection = tempList.GetRandom(numDefusals);
+
+        Debug.Log($"BombConfigurator - Selection [{selection[0]}], [{selection[1]}], [{selection[2]}]");
         return selection;
     }
 

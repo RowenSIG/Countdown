@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5526164977222566416}
   - component: {fileID: 8790567453754136534}
   - component: {fileID: 2041645996511604079}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 2534181770914556702}
   - component: {fileID: 3464839566996837296}
   - component: {fileID: 8108298053110962699}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1997711226180678927}
   - component: {fileID: 3860509394323375924}
-  m_Layer: 0
+  - component: {fileID: 8622503360668925046}
+  - component: {fileID: 337630013699567667}
+  m_Layer: 6
   m_Name: Battery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,6 +233,35 @@ MonoBehaviour:
   useAnimation: {fileID: 0}
   voltage: 0
   number: {fileID: 2162019323628411926}
+--- !u!65 &8622503360668925046
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3964927628842678114}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.28, y: 0.16, z: 0.38}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &337630013699567667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3964927628842678114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d7c64f68ab2a8438ea48551bab8dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionLabel1: Collect
+  actionLabel2: 
+  Type: 5
+  useAnimation: {fileID: 0}
 --- !u!1 &4038453302173138499
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +273,7 @@ GameObject:
   - component: {fileID: 8466160480941932412}
   - component: {fileID: 7974104026736637101}
   - component: {fileID: 143812667840552}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +354,7 @@ GameObject:
   - component: {fileID: 1159654396444470207}
   - component: {fileID: 1173810312473087388}
   - component: {fileID: 4306153024638194824}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}

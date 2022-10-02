@@ -8,8 +8,8 @@ public class LiquidConfigurator : DefusalConfigurator
 
     public List<Beaker> setOfBeakers;
 
-    public List<eColour> chosenSourceColours = new List<eColour>(); 
-    public List<eColour> colourOrder = new List<eColour>();
+    private List<eColour> chosenSourceColours = new List<eColour>(); 
+    private List<eColour> colourOrder = new List<eColour>();
 
     
     public override void ConfigureDefusal()
@@ -42,6 +42,14 @@ public class LiquidConfigurator : DefusalConfigurator
         instruction.colourOrder.AddRange(colourOrder);
         return instruction;
     }
+        
+    public override void Reset()
+    {
+        ResetChosenSourceColours();
+        ResetColourOrder();
+        ResetBeakers();
+    }
+
 
     private void ResetChosenSourceColours()
     {
@@ -103,8 +111,10 @@ public class LiquidConfigurator : DefusalConfigurator
             count ++;
         }
 
-        foreach(var colour in chosenSourceColours)
+        int numLeft = setOfBeakers.Count - count;
+        for(int i = 0 ; i < numLeft; i ++)
         {
+            var colour = chosenSourceColours[i];
             var beaker = setOfBeakers[count];
             beaker.Setup(colour);
             count ++;
