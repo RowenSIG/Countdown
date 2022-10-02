@@ -11,9 +11,13 @@ public class PlayerInstructions : MonoBehaviour
     private ScrewDriverDefusalInstruction screwDriverInstruction = new ScrewDriverDefusalInstruction();
     private TurnyHandleDefusalInstruction turnyHandleDefusalInstruction = new TurnyHandleDefusalInstruction();
 
+    private void Awake()
+    {
+        Reset();
+    }
     public DefusalInstruction GetInstruction(eDefusalType zType)
     {
-        switch(zType)
+        switch (zType)
         {
             case eDefusalType.CODE: return codeInstruction;
             case eDefusalType.WIRE_CUT: return wireInstruction;
@@ -41,7 +45,7 @@ public class PlayerInstructions : MonoBehaviour
             case PlayerInventoryBattery battery:
                 magneticLockInstruction.battery1 = battery.battery1.voltage;
                 if (battery.battery2 != null)
-                    magneticLockInstruction.battery1 = battery.battery2.voltage;
+                    magneticLockInstruction.battery2 = battery.battery2.voltage;
                 break;
 
             case PlayerInventoryBeaker beaker:
@@ -65,5 +69,15 @@ public class PlayerInstructions : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void Reset()
+    {
+        codeInstruction = new CodeDefusalInstruction();
+        wireInstruction = new WireCutDefusalInstruction();
+        liquidInstruction = new LiquidDefusalInstruction();
+        magneticLockInstruction = new MagneticLockDefusalInstruction();
+        screwDriverInstruction = new ScrewDriverDefusalInstruction();
+        turnyHandleDefusalInstruction = new TurnyHandleDefusalInstruction();
     }
 }

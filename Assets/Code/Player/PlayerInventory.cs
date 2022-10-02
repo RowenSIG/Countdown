@@ -10,29 +10,39 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
-        CheckNextItem();
-        CheckPrevItem();
+        if (Room.Instance.Mode == eMode.NORMAL)
+        {
+            CheckNextItem();
+            CheckPrevItem();
 
-        ShowCurrentItem();
+            ShowCurrentItem();
+        }
+    }
+
+    public void Reset()
+    {
+        currentlyShowing = 0;
+        foreach(var item in collectableItems)
+            item.Reset();
     }
 
     public void TryAddItem(CollectableItem zCollectable)
     {
-        for(int i = 0 ; i<  collectableItems.Count ; i++)
+        for (int i = 0; i < collectableItems.Count; i++)
         {
             var item = collectableItems[i];
             if (item.Type == zCollectable.Type)
             {
                 item.Collected(zCollectable);
                 currentlyShowing = i;
-                break;;
+                break; ;
             }
         }
     }
 
     public bool CanCollect(eCollectableItem zItemType)
     {
-        for(int i = 0 ; i<  collectableItems.Count ; i++)
+        for (int i = 0; i < collectableItems.Count; i++)
         {
             var item = collectableItems[i];
             if (item.Type == zItemType)

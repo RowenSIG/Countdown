@@ -129,8 +129,10 @@ public class ScrewDriverDefusalInstruction : DefusalInstruction
             if(value)
                 numToWin += 1;
         }
+        
         if(successes >= numToWin)
             Defused = true;
+            
         return true;
     }
 }

@@ -21,11 +21,17 @@ public class Countdown : MonoBehaviour
 
     public void Reset()
     {
-        TimeLeft = 10;
+        TimeLeft = 100;
     }
 
     public void SpendTime()
     {
         TimeLeft -= 1;
+
+        if(TimeLeft <= 0)
+        {
+            InGameMenu.Instance.TimeUp();
+            Room.Instance.Explode();
+        }
     }
 }

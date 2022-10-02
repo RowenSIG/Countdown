@@ -117,6 +117,11 @@ public class TurnyHandleDefusal : DefusalBase
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
         }
+
+        if(success == false)
+        {
+            Room.Instance.Explode();
+        }
     }
 
     private eTurnDirection LastTurn()

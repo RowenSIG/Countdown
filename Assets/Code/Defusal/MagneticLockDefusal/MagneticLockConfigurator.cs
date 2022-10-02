@@ -74,6 +74,7 @@ public class MagneticLockConfigurator : DefusalConfigurator
         foreach(var value in singleBatteryVoltages)
         {
             var clone = GameObject.Instantiate(batteryPrefab);
+            clone.Setup(value);
             batteries.Add(clone);
         }
     }

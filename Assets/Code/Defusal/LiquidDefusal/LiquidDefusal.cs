@@ -26,7 +26,7 @@ public class LiquidDefusal : DefusalBase
     {
         if(Progress.haveBeaker == false)
             return;
-            
+
         //just check if we're clicking to pour:
         bool pour = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
         pour |= Input.GetKeyDown(KeyCode.E);
@@ -80,7 +80,8 @@ public class LiquidDefusal : DefusalBase
         busy = true;
         yield return new WaitForSeconds(0.5f);
 
-        AttemptDefusal(progress);
+        var result = AttemptDefusal(progress);
+        
         busy = false;
 
         beaker.EnsureActive(false);
@@ -89,6 +90,11 @@ public class LiquidDefusal : DefusalBase
         {
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
+        }
+        
+        if(result == false)
+        {
+            Room.Instance.Explode();
         }
     }
 

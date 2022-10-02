@@ -5,13 +5,23 @@ using UnityEngine;
 public class AnimatingInteractiveItem : InteractiveItem
 {
     public int useLimit;
+    private int uses = 0; 
     public Animator animator;
+
+    protected void Awake()
+    {
+        ResettingItems.Register(this);
+    }
+    protected void OnDestroy()
+    {
+        ResettingItems.DeRegister(this);
+    }
 
     public override void Interact()
     {
-        if(useLimit > 0)
+        if(uses < useLimit)
         {
-            useLimit -= 1;
+            uses += 1;
 
             animator.SetTrigger("Play");
         }
@@ -19,7 +29,34 @@ public class AnimatingInteractiveItem : InteractiveItem
 
     public override bool CanInteract()
     {
-        return useLimit > 0;
+        return uses < useLimit;
     }
 
+
+    public void Reset()
+    {
+        uses = 0;
+        animator.SetTrigger("Reset");
+    }
+
+}
+
+public static class ResettingItems
+{
+    private static List<AnimatingInteractiveItem> items = new List<AnimatingInteractiveItem>();
+
+    public static void Register(AnimatingInteractiveItem zItem)
+    {
+        items.Add(zItem);
+    }
+    public static void DeRegister(AnimatingInteractiveItem zItem)
+    {
+        items.Remove(zItem);
+    }
+
+    public static void Reset()
+    {
+        foreach(var item in items)
+            item.Reset();
+    }
 }

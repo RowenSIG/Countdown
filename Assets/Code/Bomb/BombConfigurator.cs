@@ -28,6 +28,7 @@ public class BombConfigurator : MonoBehaviour
     }
 
     public List<DefusalConfigurator> configurators;
+    public List<DefusalConfigurator> chosenConfigurators = new List<DefusalConfigurator>();
 
     public BombConfiguration bombConfiguration;
 
@@ -43,9 +44,27 @@ public class BombConfigurator : MonoBehaviour
     private void ConfigureLevel()
     {
         bombConfiguration = new BombConfiguration();
+
+        foreach(var configurator in configurators)
+            configurator.ConfigureDefusal();
+
         //so...
-        var chosenDefusals = ChooseDefusals();
-        ConfigureDefusals(chosenDefusals);
+        ChooseDefusals();
+    }
+
+    public void Reset()
+    {
+        ResetConfigurators();
+        
+        bombConfiguration.instructions.Clear();
+        foreach(var configurator in configurators)
+        {
+            configurator.RefreshDefusal();
+        }
+        foreach(var configurator in chosenConfigurators)
+        {
+            bombConfiguration.instructions.Add(configurator.GetDefusalInstruction());
+        }
     }
 
     private void ResetConfigurators()
@@ -53,9 +72,9 @@ public class BombConfigurator : MonoBehaviour
         foreach(var configurator in configurators)
         {
             configurator.Reset();
-        }
+        } 
     }
-    private List<eDefusalType> ChooseDefusals()
+    private void ChooseDefusals()
     {
         var tempList = new List<eDefusalType>();
         foreach(var cost in defusalCosts)
@@ -65,25 +84,15 @@ public class BombConfigurator : MonoBehaviour
         selection = new List<eDefusalType>() { eDefusalType.MAGNETIC_LOCK, eDefusalType.LIQUID, eDefusalType.SCREW_DRIVER_PANEL };
 
         Debug.Log($"BombConfigurator - Selection [{selection[0]}], [{selection[1]}], [{selection[2]}]");
-        return selection;
-    }
-
-    private void ConfigureDefusals(List<eDefusalType> zList)
-    {
-        //so we have 3 random ones... now we set each up:
-        foreach(var defusal in zList)
+        
+        foreach(var defusal in selection)
         {
-            var instruction = ConfigureDefusal(defusal);
+            var configurator = configurators.Find(p => p.Type == defusal);
+            chosenConfigurators.Add(configurator);
+         
+            var instruction = configurator.GetDefusalInstruction();
             bombConfiguration.instructions.Add(instruction);
         }
-    }
-    private DefusalInstruction ConfigureDefusal(eDefusalType zDefusalType)
-    {
-        var configurator = configurators.Find(p => p.Type == zDefusalType);
-
-        configurator.ConfigureDefusal();
-        var instruction = configurator.GetDefusalInstruction();
-        return instruction;
     }
 
 }

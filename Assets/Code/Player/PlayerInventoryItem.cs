@@ -25,5 +25,10 @@ public class PlayerInventoryItem : MonoBehaviour
     {
         visual.EnsureActive(false);
     }
+
+    public virtual void Reset()
+    {
+        Have = false;
+    }
 }
 

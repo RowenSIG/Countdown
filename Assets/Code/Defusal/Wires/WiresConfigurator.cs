@@ -43,6 +43,7 @@ public class WiresConfigurator : DefusalConfigurator
 
     public override void RefreshDefusal()
     {
+        ChooseWireColours();
         ChooseRandomWireColour();
         ChooseAndAssignRiddleForColour();
         AssignColoursToMaterials();

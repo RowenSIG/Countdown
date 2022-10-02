@@ -13,9 +13,14 @@ public class Room : MonoBehaviour
     private static Room instance;
     public static Room Instance => instance;
 
-    public eMode Mode {get; private set;}
+    public eMode Mode { get; private set; }
 
-    public DefusalBase CurrentDefusal {get; private set;} = null;
+    public DefusalBase CurrentDefusal { get; private set; } = null;
+
+    private InteractiveItem currentInteractiveTarget;
+
+    public Transform playerSpawn;
+
     public void Awake()
     {
         Mode = eMode.NORMAL;
@@ -25,7 +30,12 @@ public class Room : MonoBehaviour
     public void Start()
     {
         BombConfigurator.Instance.Configure();
+        ConfigureBomb();
+        PlaySession.Start();
+    }
 
+    public void ConfigureBomb()
+    {
         var configuration = BombConfigurator.Instance.bombConfiguration;
         Bomb.Instance.Setup(configuration.instructions);
     }
@@ -34,14 +44,17 @@ public class Room : MonoBehaviour
         instance = null;
     }
 
-    private InteractiveItem currentInteractiveTarget;
+    public void Explode()
+    {
+        StartCoroutine(CoExplode());
+    }
 
     public void CurrentPlayerPointingTarget(Collider zCollider)
     {
         //get this object's interaction possibilities...
         currentInteractiveTarget = zCollider.GetComponentInParent<InteractiveItem>();
 
-        if(currentInteractiveTarget == null
+        if (currentInteractiveTarget == null
             || currentInteractiveTarget.CanInteract() == false)
         {
             CurrentPlayerPointingAtNothing();
@@ -59,8 +72,9 @@ public class Room : MonoBehaviour
 
     public void InteractWithTarget()
     {
-        if(currentInteractiveTarget != null && currentInteractiveTarget.CanInteract())
+        if (currentInteractiveTarget != null && currentInteractiveTarget.CanInteract())
         {
+            Countdown.Instance.SpendTime();
             currentInteractiveTarget.Interact();
         }
     }
@@ -68,8 +82,8 @@ public class Room : MonoBehaviour
     public void SecondaryInteractionWithTarget()
     {
         //for now, turn it off:
-        
-        if(currentInteractiveTarget != null)
+
+        if (currentInteractiveTarget != null)
         {
             currentInteractiveTarget.gameObject.EnsureActive(false);
             currentInteractiveTarget = null;
@@ -95,7 +109,7 @@ public class Room : MonoBehaviour
         //here we have to enter into defusal mode...
         //as this is unique to each defusal instance, i reckon they should handle that.
 
-        if(zDefusal.Defused)
+        if (zDefusal.Defused)
         {
             //do nothign
         }
@@ -108,5 +122,40 @@ public class Room : MonoBehaviour
             Player.Instance.StartDefusal();
         }
     }
-    
+
+
+    private IEnumerator<YieldInstruction> CoExplode()
+    {
+        Debug.Log("Explode!");
+
+        Mode = eMode.BOMB_EXPOLODING;
+        Bomb.Instance.Explode();
+        Player.Instance.Explode();
+
+        yield return new WaitForSeconds(2f);
+
+        Player.Instance.Reset();
+        BombConfigurator.Instance.Reset();
+        Bomb.Instance.Reset();
+        ResettingItems.Reset();
+        ConfigureBomb();
+        InGameMenu.Instance.Reset();
+        Countdown.Instance.Reset();
+
+        Mode = eMode.NORMAL;
+
+        PlaySession.attempts += 1;
+    }
+
+
+    public void BombDefused()
+    {
+        StartCoroutine(CoBombDefused());
+    }
+    IEnumerator<YieldInstruction> CoBombDefused()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SuccessScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+    }
 }

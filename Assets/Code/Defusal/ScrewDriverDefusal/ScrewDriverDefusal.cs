@@ -30,8 +30,11 @@ public class ScrewDriverDefusal : DefusalBase
 
     protected override void UpdateInternal()
     {
-        CheckNavigation();
-        CheckScrew();
+        if (Progress.haveScrewDriver)
+        {
+            CheckNavigation();
+            CheckScrew();
+        }
     }
 
     protected override void SetupInternal()
@@ -44,10 +47,10 @@ public class ScrewDriverDefusal : DefusalBase
     {
         SetScrewDriverPos(0);
 
-        screwDriver.EnsureActive(true);
+        screwDriver.EnsureActive(Progress.haveScrewDriver);
 
         panelCover.EnsureActive(true);
-        foreach(var screw in screws)
+        foreach (var screw in screws)
             screw.EnsureActive(true);
     }
 
@@ -69,7 +72,8 @@ public class ScrewDriverDefusal : DefusalBase
         bool input = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
         input |= Input.GetKeyDown(KeyCode.E);
 
-        if(input)
+        bool screwNotScrewed = screws[currentScrewIndex].activeSelf;
+        if (input && screwNotScrewed)
         {
             StartCoroutine(CoAttemptDefusal());
         }
@@ -126,22 +130,31 @@ public class ScrewDriverDefusal : DefusalBase
         busy = true;
         yield return new WaitForSeconds(0.5f);
 
-        Progress.attemptIndex = currentScrewIndex;        
+        Progress.attemptIndex = currentScrewIndex;
         bool result = AttemptDefusal(progress);
-        
+
         screws[currentScrewIndex].EnsureActive(false);
 
-        if(Defused)
+        if (Defused)
         {
             panelCover.EnsureActive(false);
         }
+
+        yield return new WaitForSeconds(0.2f);
+
         busy = false;
-        
-        if(Defused)
+
+        if (Defused)
         {
             screwDriver.EnsureActive(false);
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
         }
+
+        if (result == false)
+        {
+            Room.Instance.Explode();
+        }
+
     }
 }

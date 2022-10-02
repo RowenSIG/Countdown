@@ -164,6 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3692480633370115181}
+  - component: {fileID: 7829621510706559734}
   m_Layer: 0
   m_Name: Geometry
   m_TagString: Untagged
@@ -191,6 +192,25 @@ Transform:
   m_Father: {fileID: 7349131042173542584}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &7829621510706559734
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201710797333057301}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9850217cd22d65342a17ddf99fe0c5a5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3295752201119487804
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7349131042173542584}
+  - component: {fileID: 1726121235403166571}
   m_Layer: 0
   m_Name: BatteryLocation
   m_TagString: Untagged
@@ -420,6 +441,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1726121235403166571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4640570218762767983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b08b81526b69c404ebd17283cb59c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionLabel1: Open
+  actionLabel2: 
+  useLimit: 1
+  animator: {fileID: 7829621510706559734}
 --- !u!1 &6243203109267428480
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,14 +575,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6410829951360396364}
-  m_LocalRotation: {x: 0.000000089406946, y: 0.000000044703473, z: -0.8665963, w: 0.4990099}
-  m_LocalPosition: {x: 0.5100001, y: 0.179, z: 0.051000535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5100001, y: 0.169, z: 0.051000535}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7180477813869367409}
   m_Father: {fileID: 3692480633370115181}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -120.131}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6449073444593164594
 GameObject:
   m_ObjectHideFlags: 0

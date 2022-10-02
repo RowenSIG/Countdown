@@ -40,5 +40,11 @@ public class PlayerInventoryBeaker : PlayerInventoryItem
     {
         return true;
     }
+
+    public override void Reset()
+    {
+        base.Reset();
+        colourOrder.Clear();
+    }
 }
 

@@ -66,6 +66,9 @@ public abstract class DefusalBase : InteractiveItem
     {
         if(Room.Instance.CurrentDefusal != this)
             return;
+
+        if(PlaySession.Paused)
+            return;
         
         if(busy)
             return;
@@ -101,7 +104,6 @@ public abstract class DefusalBase : InteractiveItem
         }
         
         return success;
-
     }
 
     public void StartDefusal()

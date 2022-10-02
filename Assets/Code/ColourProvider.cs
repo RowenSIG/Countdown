@@ -54,6 +54,9 @@ public class ColourProvider : MonoBehaviour
 
     public static eColour GetColourMix(List<eColour> zColours)
     {
+        if(zColours.Count == 1)
+            return zColours[0];
+        
         foreach(var mix in Instance.colourMixes)
         {
             if(mix.colourOrder.Count != zColours.Count)

@@ -27,18 +27,41 @@ public class Player : MonoBehaviour
 
     public Transform upDownTransform;
 
+    public Animator explosion;
+
     void Awake()
     {
-        Instance = this;
+        Instance = this;       
+        ReturnToSpawn();
     }
+
     void OnDestroy()
     {
         Instance = null;
     }
 
+    public void Reset()
+    {
+        explosion.SetTrigger("Reset");
+        ReturnToSpawn();
+        inventory.Reset();
+        instructions.Reset();
+    }
+
+    public void Explode()
+    {
+        explosion.SetTrigger("Explode");
+    }
+
+    void ReturnToSpawn()
+    {
+        transform.position = Room.Instance.playerSpawn.position;
+        transform.rotation = Room.Instance.playerSpawn.rotation;
+    }
+
     void Update()
     {
-        if (Room.Instance.Mode == eMode.NORMAL)
+        if (Room.Instance.Mode == eMode.NORMAL && PlaySession.Paused == false)
         {
             UpdateLook();
             CheckPointingRaycast();
@@ -48,7 +71,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Room.Instance.Mode == eMode.NORMAL)
+        if (Room.Instance.Mode == eMode.NORMAL && PlaySession.Paused == false)
         {
             UpdateMovement();
             UpdateJump();

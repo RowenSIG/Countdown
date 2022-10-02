@@ -102,7 +102,7 @@ public class WireCutDefusal : DefusalBase
         busy = true;
         yield return new WaitForSeconds(0.5f);
 
-        AttemptDefusal(progress);
+        var result = AttemptDefusal(progress);
 
         cutters.EnsureActive(false);
         busy = false;
@@ -111,6 +111,11 @@ public class WireCutDefusal : DefusalBase
         {
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
+        }
+
+        if(result == false)
+        {
+            Room.Instance.Explode();
         }
     }
 }

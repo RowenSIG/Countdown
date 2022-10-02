@@ -122,7 +122,7 @@ public class CodePadDefusal : DefusalBase
         busy = true;
         yield return new WaitForSeconds(0.3f);
 
-        AttemptDefusal(progress);
+        var result = AttemptDefusal(progress);
 
         busy = false;
         
@@ -131,6 +131,11 @@ public class CodePadDefusal : DefusalBase
             finger.gameObject.EnsureActive(false);
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
+        }
+        
+        if(result == false)
+        {
+            Room.Instance.Explode();
         }
     }
 }

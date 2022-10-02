@@ -115,7 +115,7 @@ public class MagneticLockDefusal : DefusalBase
 
         yield return new WaitForSeconds(1f);
 
-        AttemptDefusal(Progress);
+        var result = AttemptDefusal(Progress);
 
         busy= false;
         
@@ -123,6 +123,11 @@ public class MagneticLockDefusal : DefusalBase
         {
             yield return new WaitForSeconds(0.7f);
             Room.Instance.CancelDefusal();
+        }
+        
+        if(result == false)
+        {
+            Room.Instance.Explode();
         }
     }
 }

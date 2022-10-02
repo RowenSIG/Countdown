@@ -47,4 +47,12 @@ public class PlayerInventoryBattery : PlayerInventoryItem
     {
         return voltages.Count < 2;        
     }
+
+    public override void Reset()
+    {
+        base.Reset();
+        voltages.Clear();
+        battery1.Reset();
+        battery2.Reset();
+    }
 }

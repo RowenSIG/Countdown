@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    public static Bomb Instance {get ; private set;}
+    public static Bomb Instance { get; private set; }
     public List<DefusalBase> allDefusalPrefabs;
 
     public List<Transform> defusalTransforms;
@@ -14,6 +14,8 @@ public class Bomb : MonoBehaviour
     public NumberDigits tensDigit;
     public NumberDigits onesDigit;
 
+    public Animator explosionAnimator;
+
     private void Awake()
     {
         Instance = this;
@@ -21,6 +23,23 @@ public class Bomb : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
+    }
+
+    public void Reset()
+    {
+        tensDigit.Clear();
+        onesDigit.Clear();
+
+        explosionAnimator.SetTrigger("Reset");
+
+        foreach (var defusal in defusals)
+            GameObject.Destroy(defusal.gameObject);
+        defusals.Clear();
+    }
+
+    public void Explode()
+    {
+        explosionAnimator.SetTrigger("Explode");
     }
 
     private void Update()
@@ -36,7 +55,7 @@ public class Bomb : MonoBehaviour
 
     public void Setup(List<DefusalInstruction> zList)
     {
-        foreach(var instruction in zList)
+        foreach (var instruction in zList)
         {
             SpawnDefusal(instruction);
         }
@@ -53,5 +72,5 @@ public class Bomb : MonoBehaviour
         defusals.Add(clone);
     }
 
-    
+
 }
