@@ -8,7 +8,7 @@ public class WiresConfigurator : DefusalConfigurator
     public override eDefusalType Type => eDefusalType.WIRE_CUT;
 
     public TextMesh riddleText;
-    
+
     [System.Serializable]
     public class ColourRiddle
     {
@@ -41,7 +41,7 @@ public class WiresConfigurator : DefusalConfigurator
         AssignWireCutterToLocation();
     }
 
-    public override void RefreshDefusal() 
+    public override void RefreshDefusal()
     {
         ChooseRandomWireColour();
         ChooseAndAssignRiddleForColour();
@@ -51,12 +51,12 @@ public class WiresConfigurator : DefusalConfigurator
 
     public override DefusalInstruction GetDefusalInstruction()
     {
-        var instruction =new WireCutDefusalInstruction();
+        var instruction = new WireCutDefusalInstruction();
         instruction.wireColours.AddRange(chosenColours);
         instruction.chosenWireIndex = chosenColours.IndexOf(chosenColour);
         return instruction;
     }
-    
+
     public override void Reset()
     {
         ResetChosenColours();
@@ -66,12 +66,12 @@ public class WiresConfigurator : DefusalConfigurator
     {
         var allColours = new List<eColour>();
         var colours = System.Enum.GetValues(typeof(eColour));
-        foreach(var colour in colours)
+        foreach (var colour in colours)
         {
             allColours.Add((eColour)colour);
         }
 
-        for(int i = 0 ; i < 3 ; i++)
+        for (int i = 0; i < 3; i++)
         {
             var rand = Random.Range(0, allColours.Count);
             chosenColours.Add(allColours[rand]);
@@ -81,16 +81,16 @@ public class WiresConfigurator : DefusalConfigurator
 
     private void ChooseRandomWireColour()
     {
-        var rand = Random.Range(0 , chosenColours.Count);
+        var rand = Random.Range(0, chosenColours.Count);
         chosenColour = chosenColours[rand];
     }
 
     private void ChooseAndAssignRiddleForColour()
     {
         var tempList = new List<ColourRiddle>();
-        foreach(var colourRidde in riddles)
+        foreach (var colourRidde in riddles)
         {
-            if(colourRidde.colour == chosenColour)
+            if (colourRidde.colour == chosenColour)
                 tempList.Add(colourRidde);
         }
 
@@ -102,14 +102,14 @@ public class WiresConfigurator : DefusalConfigurator
 
     private void ChooseWireCutterLocation()
     {
-        chosenWireCutterLocation = Random.Range(0 , wireCutterLocations.Count);
+        chosenWireCutterLocation = Random.Range(0, wireCutterLocations.Count);
     }
 
     private void AssignColoursToMaterials()
     {
-        for(int i = 0 ; i < chosenColours.Count; i++)
+        for (int i = 0; i < chosenColours.Count; i++)
         {
-            var material =wireMaterials[i];
+            var material = wireMaterials[i];
             var colour = chosenColours[i];
 
             var color = ColourProvider.GetColor(colour);
@@ -120,13 +120,16 @@ public class WiresConfigurator : DefusalConfigurator
     private void AssignWireCutterToLocation()
     {
         var location = wireCutterLocations[chosenWireCutterLocation];
-        var clone = GameObject.Instantiate(wireCutterPrefab, location);
+        var clone = GameObject.Instantiate(wireCutterPrefab, location, false);
         wireCutter = clone;
     }
 
     private void ResetWireCutter()
     {
-        GameObject.Destroy(wireCutter.gameObject);
+        if (wireCutter != null)
+        {
+            GameObject.Destroy(wireCutter.gameObject);
+        }
     }
 
     private void ResetChosenColours()

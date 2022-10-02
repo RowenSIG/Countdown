@@ -10,6 +10,8 @@ public class PlayerInventoryItem : MonoBehaviour
 
     public bool Have {get ;private set;}    
 
+    public virtual bool CanCollect() { return Have == false; }
+
     public virtual void Collected(CollectableItem zItem)
     {
         Have = true;

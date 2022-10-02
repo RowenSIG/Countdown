@@ -44,6 +44,15 @@ public abstract class DefusalBase : InteractiveItem
     public Camera defusalCamera;
     protected bool busy = false;
 
+    public override bool CanInteract()
+    {
+        if(busy)
+            return false;
+        if(Defused)
+            return false;
+        return true;
+    }
+    
     protected virtual void Awake()
     {
         defusalCamera.gameObject.EnsureActive(false);

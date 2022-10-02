@@ -35,5 +35,10 @@ public class PlayerInventoryBeaker : PlayerInventoryItem
             fillRenderer.material = material;
         }
     }
+
+    public override bool CanCollect()
+    {
+        return true;
+    }
 }
 

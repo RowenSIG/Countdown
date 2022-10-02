@@ -24,8 +24,11 @@ public class CollectableItem : InteractiveItem
         gameObject.EnsureActive(false);
     }
 
-    public void Use()
+    public override bool CanInteract()
     {
-        useAnimation.Play();
+        //does player already have one?
+        bool canPickUp = Player.Instance.CanCollect(Type);        
+        return canPickUp;
     }
+
 }

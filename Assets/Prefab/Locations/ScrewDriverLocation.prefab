@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3997124231534705993}
   - component: {fileID: 6534411006017147259}
   - component: {fileID: 3248132788215834024}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: boxwall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1886689822793465397}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,14 +118,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977337375500825675}
-  m_LocalRotation: {x: 0.31138965, y: -0, z: -0, w: 0.95028234}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.148, z: 0.32000017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 550368769087047917}
   m_Father: {fileID: 8388450628281389712}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 36.286, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &998055539533260011
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4664552584146055132}
   - component: {fileID: 1375776004181271984}
   - component: {fileID: 3057222034842843821}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: boxwall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 784767764668596312}
   - component: {fileID: 3528128652270649012}
   - component: {fileID: 4685954851113517166}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: boxwall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 5865976880514661126}
   - component: {fileID: 3446181406690835828}
   - component: {fileID: 6096395531389155386}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: boxwall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 5347716010571917696}
   - component: {fileID: 8254111478973016747}
   - component: {fileID: 3385717300627603872}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: boxwall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6642781343399116287}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 2306698486574572325}
   - component: {fileID: 4999063499431273957}
   - component: {fileID: 7431845371449080376}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: boxwall (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -641,7 +641,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5335704440668582905}
   - component: {fileID: 485270360579498950}
-  m_Layer: 0
+  - component: {fileID: 223496518883924864}
+  m_Layer: 6
   m_Name: ScrewDriverLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -677,6 +678,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {fileID: 6642781343399116287}
+--- !u!114 &223496518883924864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7914502117679979687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b08b81526b69c404ebd17283cb59c2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useLimit: 1
+  animator: {fileID: 3466711596013963690}
 --- !u!1 &8276359037626768252
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +701,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8388450628281389712}
-  m_Layer: 0
+  - component: {fileID: 3466711596013963690}
+  m_Layer: 6
   m_Name: Geometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,3 +729,22 @@ Transform:
   m_Father: {fileID: 5335704440668582905}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &3466711596013963690
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276359037626768252}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb3c22d94656b8948a2ba143f1a7f053, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

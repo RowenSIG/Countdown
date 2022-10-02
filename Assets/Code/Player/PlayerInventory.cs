@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private int? currentlyShowing = null;
+    private int currentlyShowing = 0;
 
     public List<PlayerInventoryItem> collectableItems = new List<PlayerInventoryItem>();
 
@@ -13,31 +13,49 @@ public class PlayerInventory : MonoBehaviour
         CheckNextItem();
         CheckPrevItem();
 
-        CheckInventory();
         ShowCurrentItem();
     }
 
     public void TryAddItem(CollectableItem zCollectable)
     {
-
-    }
-
-    void ShowCurrentItem()
-    {
-        if (currentlyShowing.HasValue)
+        for(int i = 0 ; i<  collectableItems.Count ; i++)
         {
-            for (int i = 0; i < collectableItems.Count; i++)
+            var item = collectableItems[i];
+            if (item.Type == zCollectable.Type)
             {
-                var collectable = collectableItems[i];
-                collectable.visual.EnsureActive(i == currentlyShowing.Value);
+                item.Collected(zCollectable);
+                currentlyShowing = i;
+                break;;
             }
         }
     }
 
-    void CheckInventory()
+    public bool CanCollect(eCollectableItem zItemType)
     {
-        if (currentlyShowing.HasValue == false && collectableItems.Count > 0)
-            currentlyShowing = 0;
+        for(int i = 0 ; i<  collectableItems.Count ; i++)
+        {
+            var item = collectableItems[i];
+            if (item.Type == zItemType)
+            {
+                return item.CanCollect();
+            }
+        }
+        return true;
+    }
+
+    void ShowCurrentItem()
+    {
+        for (int i = 0; i < collectableItems.Count; i++)
+        {
+            var collectable = collectableItems[i];
+            bool show = i == currentlyShowing && collectable.Have;
+
+            if (show)
+                collectable.Show();
+            else
+                collectable.Hide();
+
+        }
     }
 
     void CheckNextItem()
@@ -60,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
         {
             for (int i = 0; i < collectableItems.Count; i++)
             {
-                var index = Wrap(currentlyShowing.Value + i);
+                var index = Wrap(currentlyShowing + i + 1);
                 var collectable = collectableItems[index];
                 if (collectable.Have)
                 {
@@ -79,18 +97,18 @@ public class PlayerInventory : MonoBehaviour
         switch (inputType)
         {
             case ePlayerInput.KEYBOARD:
-                action = Input.GetKeyDown(KeyCode.Period);
+                action = Input.GetKeyDown(KeyCode.Comma);
                 break;
 
             case ePlayerInput.GAMEPAD:
-                action = PlayerInputManager.GetButtonDown(0, ePadButton.RIGHT_BUMPER);
+                action = PlayerInputManager.GetButtonDown(0, ePadButton.LEFT_BUMPER);
                 break;
         }
         if (action)
         {
             for (int i = 0; i < collectableItems.Count; i++)
             {
-                var index = Wrap(currentlyShowing.Value - i);
+                var index = Wrap(currentlyShowing - (i + 1));
                 var collectable = collectableItems[index];
                 if (collectable.Have)
                 {

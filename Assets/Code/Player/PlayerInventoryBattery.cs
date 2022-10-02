@@ -43,4 +43,8 @@ public class PlayerInventoryBattery : PlayerInventoryItem
         base.Hide();
     }
 
+    public override bool CanCollect()
+    {
+        return voltages.Count < 2;        
+    }
 }

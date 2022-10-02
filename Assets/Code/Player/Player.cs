@@ -171,6 +171,11 @@ public class Player : MonoBehaviour
         inventory.TryAddItem(zItem);
     }
 
+    public bool CanCollect(eCollectableItem zItem)
+    {
+        return inventory.CanCollect(zItem);
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
