@@ -68,7 +68,7 @@ public class WireCutDefusal : DefusalBase
         {
             Progress.chosenWireIndex = CurrentColourIndex;
         
-            // cutterAnim.SetTrigger("Cut");
+            cutterAnim.SetTrigger("Play");
 
             StartCoroutine(CoAttemptDefusal());
 
@@ -101,6 +101,11 @@ public class WireCutDefusal : DefusalBase
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+            wires[CurrentColourIndex].PlayCut();
+
         yield return new WaitForSeconds(0.5f);
 
         var result = AttemptDefusal(progress);

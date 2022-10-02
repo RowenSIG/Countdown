@@ -79,9 +79,7 @@ MonoBehaviour:
     result: 3
   - colourOrder: 0300000001000000
     result: 8
-  - colourOrder: 0100000003000000
+  - colourOrder: 0600000005000000
     result: 7
-  - colourOrder: 0200000003000000
-    result: 1
-  - colourOrder: 0100000003000000
-    result: 2
+  - colourOrder: 0600000005000000
+    result: 7

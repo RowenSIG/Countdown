@@ -8,10 +8,10 @@ public class LiquidConfigurator : DefusalConfigurator
 
     public List<Beaker> setOfBeakers;
 
-    private List<eColour> chosenSourceColours = new List<eColour>(); 
+    private List<eColour> chosenSourceColours = new List<eColour>();
     private List<eColour> colourOrder = new List<eColour>();
 
-    
+
     public override void ConfigureDefusal()
     {
         ResetChosenSourceColours();
@@ -24,7 +24,7 @@ public class LiquidConfigurator : DefusalConfigurator
         AssignColoursToBeakers();
     }
 
-    public override void RefreshDefusal() 
+    public override void RefreshDefusal()
     {
         ResetChosenSourceColours();
         ResetColourOrder();
@@ -42,7 +42,7 @@ public class LiquidConfigurator : DefusalConfigurator
         instruction.colourOrder.AddRange(colourOrder);
         return instruction;
     }
-        
+
     public override void Reset()
     {
         ResetChosenSourceColours();
@@ -61,7 +61,7 @@ public class LiquidConfigurator : DefusalConfigurator
     }
     private void ResetBeakers()
     {
-        foreach(var beaker in setOfBeakers)
+        foreach (var beaker in setOfBeakers)
         {
             beaker.Reset();
         }
@@ -69,58 +69,68 @@ public class LiquidConfigurator : DefusalConfigurator
 
     private void ChooseColourOrder()
     {
-        var mixes = ColourProvider.Instance.colourMixes;
-        var rand = Random.Range(0, mixes.Count);
-        var mix = mixes[rand];
+        if (Random.Range(0, 1f) > 0.66f)
+        {
+            var mixes = ColourProvider.Instance.colourMixes;
+            var rand = Random.Range(0, mixes.Count);
+            var mix = mixes[rand];
 
-        Debug.Log($"LiquidConfigurator: RandomMix[{rand}]of[{mixes.Count}] = colour[{mix.colourOrder[0]},{mix.colourOrder[1]}]");
-        colourOrder.AddRange(mix.colourOrder);
+            Debug.Log($"LiquidConfigurator: RandomMix[{rand}]of[{mixes.Count}] = colour[{mix.colourOrder[0]},{mix.colourOrder[1]}]");
+            colourOrder.AddRange(mix.colourOrder);
+        }
+        else
+        {
+            var allValues = System.Enum.GetValues(typeof(eColour));
+            var rand = Random.Range(0, allValues.Length);
+            var colour = allValues.GetValue(rand);
+            colourOrder.Add((eColour)colour);
+        }
     }
 
     private void ChooseSourceColours()
     {
         var colours = System.Enum.GetValues(typeof(eColour));
-        var allOtherColours= new List<eColour>();
+        var allOtherColours = new List<eColour>();
 
-        foreach(eColour colour in colours)
+        foreach (eColour colour in colours)
         {
-            if(colourOrder.Contains(colour) == false)
+            if (colourOrder.Contains(colour) == false)
                 allOtherColours.Add(colour);
         }
 
-        for(int i = 0 ; i < allOtherColours.Count; i++)
+        for (int i = 0; i < allOtherColours.Count; i++)
         {
             var rand = Random.Range(0, allOtherColours.Count);
             var colour = allOtherColours[rand];
             chosenSourceColours.Add(colour);
             allOtherColours.RemoveAt(rand);
-            i --;
+            i--;
         }
     }
 
     private void AssignColoursToBeakers()
     {
         //which ones?! let's just random it...
-        var indices = new List<int>() { 0,1,2,3 };
+        var indices = new List<int>() { 0, 1, 2, 3 };
         indices.ShuffleInPlace();
 
         var count = 0;
-        foreach(var colour in colourOrder)
+        foreach (var colour in colourOrder)
         {
             var index = indices[count];
             var beaker = setOfBeakers[index];
             beaker.Setup(colour);
-            count ++;
+            count++;
         }
 
         int numLeft = setOfBeakers.Count - count;
-        for(int i = 0 ; i < numLeft; i ++)
+        for (int i = 0; i < numLeft; i++)
         {
             var index = indices[count];
             var colour = chosenSourceColours[i];
             var beaker = setOfBeakers[index];
             beaker.Setup(colour);
-            count ++;
+            count++;
         }
     }
 }

@@ -20,6 +20,12 @@ public class SuccessMenu : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        bool padInput = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        if(padInput)
+            OnReturnToMenu();
+    }
     public void OnReturnToMenu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene", UnityEngine.SceneManagement.LoadSceneMode.Single);

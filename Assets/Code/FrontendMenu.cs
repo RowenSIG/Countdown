@@ -12,6 +12,13 @@ public class FrontendMenu : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("BombScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
+    void Update()
+    {
+        var input = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        if(input)
+            LoadGame();
+    }
+
     private void Start()
     {
         SaveGame.Load();

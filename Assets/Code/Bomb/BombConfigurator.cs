@@ -12,11 +12,11 @@ public class BombConfigurator : MonoBehaviour
     }
     private List<DefusalCost> defusalCosts = new List<DefusalCost>() 
     {   
-        new DefusalCost() { defusal = eDefusalType.CODE, cost = 3 },
+        new DefusalCost() { defusal = eDefusalType.CODE, cost = 4 },
         new DefusalCost() { defusal = eDefusalType.WIRE_CUT, cost = 2 },
         new DefusalCost() { defusal = eDefusalType.LIQUID, cost = 3 },
-        new DefusalCost() { defusal = eDefusalType.MAGNETIC_LOCK, cost = 3},
-        new DefusalCost() { defusal = eDefusalType.SCREW_DRIVER_PANEL, cost = 2},
+        new DefusalCost() { defusal = eDefusalType.MAGNETIC_LOCK, cost = 4 },
+        new DefusalCost() { defusal = eDefusalType.SCREW_DRIVER_PANEL, cost = 3 },
         new DefusalCost() { defusal = eDefusalType.TURNY_HANDLE, cost = 2},
     };
 
@@ -76,12 +76,23 @@ public class BombConfigurator : MonoBehaviour
     }
     private void ChooseDefusals()
     {
-        var tempList = new List<eDefusalType>();
+        var tempList = new List<DefusalCost>();
         foreach(var cost in defusalCosts)
-            tempList.Add(cost.defusal);
+            tempList.Add(cost);
 
-        var selection = tempList.GetRandom(numDefusals);
-        selection = new List<eDefusalType>() { eDefusalType.MAGNETIC_LOCK, eDefusalType.LIQUID, eDefusalType.SCREW_DRIVER_PANEL };
+        tempList.ShuffleInPlace();
+        var selection = new List<eDefusalType>();
+        int total = 0;
+        for(int i = 0 ; i < tempList.Count && selection.Count < 3; i++)
+        {
+            var choice = tempList[i];
+            if(choice.cost + total < 10)
+            {
+                selection.Add(choice.defusal);
+            }
+        }
+
+        // selection = new List<eDefusalType>() { eDefusalType.MAGNETIC_LOCK, eDefusalType.LIQUID, eDefusalType.SCREW_DRIVER_PANEL };
     //    selection = new List<eDefusalType>() { eDefusalType.CODE, eDefusalType.TURNY_HANDLE, eDefusalType.WIRE_CUT };
 
         Debug.Log($"BombConfigurator - Selection [{selection[0]}], [{selection[1]}], [{selection[2]}]");

@@ -28,6 +28,10 @@ public class InGamePause : MonoBehaviour
 
         var attempts = PlaySession.attempts;
         currentSessionScore.text = attempts.ToString();
+
+        var returnToMenu = PlayerInputManager.GetButtonDown(0 , ePadButton.FACE_UP);
+        if(returnToMenu)
+            OnQuit();
     }
 
     public void OnQuit()

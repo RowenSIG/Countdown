@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionLabel1: Pick Up
-  actionLabel2: Discard
+  actionLabel2: 
   Type: 5
   useAnimation: {fileID: 0}
   voltage: 0

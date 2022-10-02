@@ -125,11 +125,44 @@ public static class PlayerInputManager
         { 9 , "Joy10" }, 
     };
 
+    static Dictionary<int, Dictionary<ePadButton, int>> cache = new Dictionary<int, System.Collections.Generic.Dictionary<ePadButton, int>>() ;
+
+    private static void CacheInput(int zPadIndex, ePadButton zButton)
+    {
+        if(cache.TryGetValue(zPadIndex, out var buttonCache) == false)
+        {
+            buttonCache = new Dictionary<ePadButton, int>();
+            cache[zPadIndex] = buttonCache;
+        }
+        if(buttonCache.TryGetValue(zButton, out var frame) == false)
+        {
+            frame = Time.frameCount;
+        }
+        buttonCache[zButton] = frame;
+    }
+    private static bool BlockViaFrameCache(int zPadIndex, ePadButton zButton)
+    {
+        if(cache.TryGetValue(zPadIndex, out var buttonCache))
+        {
+            if(buttonCache.TryGetValue(zButton, out var frame))
+            {
+                var now = Time.frameCount;
+                if(now <= frame)
+                    return true;
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static bool GetButtonDown(int zPadIndex, ePadButton zButton)
     {
+        // if(BlockViaFrameCache(zPadIndex, zButton))
+        //     return false;
+
         var mapString = ButtonToInputMap[zButton];
         var padString = PadToNameMap[zPadIndex];
-        bool down = Input.GetButton(padString + mapString);
+        bool down = Input.GetButtonDown(padString + mapString);
         return down;
     }
 

@@ -21,6 +21,6 @@ public class WireCutWire : MonoBehaviour
     }
     public void PlayCut()
     {
-        //cutAnimator.SetTrigger("Cut");
+        cutAnimator.SetTrigger("Play");
     }
 }

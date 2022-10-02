@@ -366,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7512012151973782889}
   - component: {fileID: 7454479329616246036}
+  - component: {fileID: 2675671225881937228}
   m_Layer: 6
   m_Name: Wire
   m_TagString: Untagged
@@ -405,7 +406,26 @@ MonoBehaviour:
   topBit: {fileID: 114273679408937676}
   bottomBit: {fileID: 1469442230353380053}
   anchor: {fileID: 7374091880785072546}
-  cutAnimator: {fileID: 0}
+  cutAnimator: {fileID: 2675671225881937228}
+--- !u!95 &2675671225881937228
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464857400033565501}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9eff687b226afb4ea378bd784db5f72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3553355211852188918
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3667494168404124745}
   - component: {fileID: 7063797474579499754}
+  - component: {fileID: 4516768118764872127}
   m_Layer: 6
   m_Name: Wire (1)
   m_TagString: Untagged
@@ -455,7 +476,26 @@ MonoBehaviour:
   topBit: {fileID: 8582246544479885571}
   bottomBit: {fileID: 711753539248612157}
   anchor: {fileID: 6045997930785143915}
-  cutAnimator: {fileID: 0}
+  cutAnimator: {fileID: 4516768118764872127}
+--- !u!95 &4516768118764872127
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3553355211852188918}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9eff687b226afb4ea378bd784db5f72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3798759161070978181
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +551,7 @@ MonoBehaviour:
   statusLight: {fileID: 8792261527617543514}
   defusalCamera: {fileID: 6574799025370050477}
   cutters: {fileID: 7937064763762423401}
-  cutterAnim: {fileID: 0}
+  cutterAnim: {fileID: 158870801865940370}
   wires:
   - {fileID: 7454479329616246036}
   - {fileID: 7063797474579499754}
@@ -1257,6 +1297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2969929689931928020}
   - component: {fileID: 5511899163483390781}
+  - component: {fileID: 8748137303575158210}
   m_Layer: 6
   m_Name: Wire (2)
   m_TagString: Untagged
@@ -1296,7 +1337,26 @@ MonoBehaviour:
   topBit: {fileID: 2145205276676421635}
   bottomBit: {fileID: 4057892901572849132}
   anchor: {fileID: 5896265419327112049}
-  cutAnimator: {fileID: 0}
+  cutAnimator: {fileID: 8748137303575158210}
+--- !u!95 &8748137303575158210
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344586289199285682}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9eff687b226afb4ea378bd784db5f72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8528303862548151594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,6 +1667,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3048385044344003607, guid: fed64f801276b7443b7923327fcc83de, type: 3}
   m_PrefabInstance: {fileID: 2993610107274221574}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &158870801865940370 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3152269802907616660, guid: fed64f801276b7443b7923327fcc83de, type: 3}
+  m_PrefabInstance: {fileID: 2993610107274221574}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7898289028113303222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1704,6 +1769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc8878743bdcd8a4fb7b75ddca754a42, type: 3}
+--- !u!4 &3829081182116348612 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6395108215585145970, guid: fc8878743bdcd8a4fb7b75ddca754a42, type: 3}
+  m_PrefabInstance: {fileID: 7898289028113303222}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8792261527617543514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1700178405790915564, guid: fc8878743bdcd8a4fb7b75ddca754a42, type: 3}
@@ -1715,8 +1785,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1598da49fbf422f44935adfd0642a967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &3829081182116348612 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6395108215585145970, guid: fc8878743bdcd8a4fb7b75ddca754a42, type: 3}
-  m_PrefabInstance: {fileID: 7898289028113303222}
-  m_PrefabAsset: {fileID: 0}
