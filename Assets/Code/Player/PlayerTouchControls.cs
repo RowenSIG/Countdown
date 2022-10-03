@@ -9,8 +9,18 @@ public class PlayerTouchControls : MonoBehaviour
     private Vector2? touch1Down;
     private Vector2? touch2Down;
 
+    private Vector2? leftTouchDown;
+    private Vector2? leftTouchPos;
+    private Vector2? rightTouchDown;
+    private Vector2? rightTouchPos;
+
+    private float screenDeadZoneInches = 0.3f;
+    private float screenPartialZoneInches = 0.2f;
+    private float deadZoneSize => screenDeadZoneInches * Screen.dpi;
+    private float partialZone => screenPartialZoneInches * Screen.dpi;
+
     private Rect leftOfScreen = new Rect(0, 0, Screen.width * 0.4f, Screen.height);
-    private Rect rightOfScreen = new Rect(0.6f, 0, Screen.width * 0.4f, Screen.height);
+    private Rect rightOfScreen = new Rect(0.6f * Screen.width, 0, Screen.width * 0.4f, Screen.height);
 
     [System.Serializable]
     private class GamePadState
@@ -33,13 +43,28 @@ public class PlayerTouchControls : MonoBehaviour
     {
         Instance = null;
     }
+
     private void Update()
     {
-        var (touch1, dir1) = GetStickState(0, touch1Down);
+        var touch1Pos = GetTouchPos(leftOfScreen);
+        var (touch1, dir1) = GetStickState(touch1Pos, touch1Down);
         touch1Down = touch1;
         padState.leftStick = dir1;
 
-        var (touch2, dir2) = GetStickState(1, touch2Down);
+         var touch2Pos = GetTouchPos(rightOfScreen);
+        var (touch2, dir2) = GetStickState(touch2Pos, touch2Down);
+        touch2Down = touch2;
+        padState.rightStick = dir2;
+    }
+    private void UpdateX()
+    {
+        var touch1Pos = GetTouchPos(0);
+        var (touch1, dir1) = GetStickState(touch1Pos, touch1Down);
+        touch1Down = touch1;
+        padState.leftStick = dir1;
+
+        var touch2Pos = GetTouchPos(1);
+        var (touch2, dir2) = GetStickState(touch2Pos, touch2Down);
         touch2Down = touch2;
         padState.rightStick = dir2;
     }
@@ -51,18 +76,42 @@ public class PlayerTouchControls : MonoBehaviour
         padState.button3 = false;
     }
 
-    private (Vector2?, Vector2) GetStickState(int zTouchId, Vector2? zDown)
+    private Vector2? GetTouchPos(Rect zScreenRect)
     {
-        bool hasTouch = Input.touchCount > zTouchId;
+        var touches = Input.touches;
+        for(int i = 0 ; i< touches.Length; i++)
+        {
+            var touch = touches[i];
+
+            if(zScreenRect.Contains(touch.position))
+                    return touch.position;
+        }
+        return null;
+    }
+    private Vector2? GetTouchPos(int zTouchId)
+    {
+         bool hasTouch = Input.touchCount > zTouchId;
 
         if (hasTouch == false)
         {
-            return (null, Vector2.zero);
+            return null;
         }
         else
         {
             var touch = Input.touches[zTouchId];
             var pos = touch.position;
+            return pos;
+        }
+    }
+    private (Vector2?, Vector2) GetStickState(Vector2? zPos, Vector2? zDown)
+    {
+        if (zPos == null)
+        {
+            return (null, Vector2.zero);
+        }
+        else
+        {
+            var pos = zPos.Value;
 
             var from = pos;
             if (zDown.HasValue)
@@ -70,8 +119,22 @@ public class PlayerTouchControls : MonoBehaviour
                 from = zDown.Value;
             }
 
-            var dir = (pos - from).normalized;
-            return (from, dir);
+            var point = (pos - from);
+            var dist = point.magnitude;
+            var mult = 1f;
+
+            if(dist < deadZoneSize)
+            {
+                point = Vector2.zero;
+            }
+            else if(dist < (deadZoneSize + partialZone))
+            {
+                mult = Mathf.InverseLerp(deadZoneSize, deadZoneSize + partialZone, dist);
+            }
+
+            point = point.normalized * mult;
+            return (from, point);
+
         }
     }
 
@@ -82,11 +145,11 @@ public class PlayerTouchControls : MonoBehaviour
     }
     public void OnButton2()
     {
-        padState.button1 = true;
+        padState.button2 = true;
     }
     public void OnButton3()
     {
-        padState.button1 = true;
+        padState.button3 = true;
     }
 
 
