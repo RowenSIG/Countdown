@@ -49,7 +49,7 @@ public class InGameMenu : MonoBehaviour
             interactionCursor.EnsureActive(false);
 
         bool pause = PlayerInputManager.GetButtonDown(0, ePadButton.START);
-        pause |= Input.GetKeyDown(KeyCode.Escape);
+        pause |= Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tilde);
 
         if (pause)
         {

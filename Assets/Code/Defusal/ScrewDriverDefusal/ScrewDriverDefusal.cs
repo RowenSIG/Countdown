@@ -84,13 +84,13 @@ public class ScrewDriverDefusal : DefusalBase
         var horizontal = DpadHorizontal();
         var vertical = DpadVertical();
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             horizontal -= 1;
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             horizontal += 1;
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             vertical += 1;
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             vertical -= 1;
 
         switch (currentScrewIndex)
@@ -154,6 +154,7 @@ public class ScrewDriverDefusal : DefusalBase
 
         if (result == false)
         {
+            screwDriver.EnsureActive(false);
             Room.Instance.Explode();
         }
 

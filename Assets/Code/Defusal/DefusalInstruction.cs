@@ -55,6 +55,7 @@ public class WireCutDefusalInstruction : DefusalInstruction
         Defused = true;
         return Defused;
     }
+
 }
 
 public class LiquidDefusalInstruction : DefusalInstruction

@@ -20,8 +20,9 @@ public class Battery : CollectableItem
             negative.EnsureActive(false);
     }
 
-    public void Reset()
+    public override void Reset()
     {
+        base.Reset();
         voltage = 0;
         number.Clear();
     }

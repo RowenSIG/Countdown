@@ -19,18 +19,12 @@ public class WireCutDefusal : DefusalBase
     protected override void Awake()
     {
         base.Awake();
-
-        var instruction = new WireCutDefusalInstruction();
-        instruction.wireColours = new List<eColour>() { eColour.BLUE, eColour.RED, eColour.GREEN };
-        instruction.chosenWireIndex = 2;
-        SetupWithInstruction(instruction);
-
-        progress = new WireCutDefusalInstruction();
         cutters.EnsureActive(false);
     }
-
     protected override void UpdateInternal()
     {
+        if (Progress.haveWireCutters == false)
+            return;
         UpdateMovement();
         UpdateCutInput();
     }
@@ -39,9 +33,9 @@ public class WireCutDefusal : DefusalBase
     {
         var move = DpadHorizontal();
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             move += 1;
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             move -= 1;
 
         var currentColourIndex = CurrentColourIndex;
@@ -64,10 +58,10 @@ public class WireCutDefusal : DefusalBase
     {
         var button = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
         button |= Input.GetKeyDown(KeyCode.E);
-        if(button)
+        if (button)
         {
             Progress.chosenWireIndex = CurrentColourIndex;
-        
+
             cutterAnim.SetTrigger("Play");
 
             StartCoroutine(CoAttemptDefusal());
@@ -79,17 +73,18 @@ public class WireCutDefusal : DefusalBase
     {
         var colourInstruction = instruction as WireCutDefusalInstruction;
 
-        for(int i = 0 ; i < colourInstruction.wireColours.Count; i++)
+        for (int i = 0; i < colourInstruction.wireColours.Count; i++)
         {
             wires[i].Setup(colourInstruction.wireColours[i]);
         }
+
     }
 
     protected override void StartDefusalInternal()
     {
-        cutters.EnsureActive(true);
+        cutters.EnsureActive(Progress.haveWireCutters);
     }
-    
+
 
     protected override void CancelInternal()
     {
@@ -104,7 +99,7 @@ public class WireCutDefusal : DefusalBase
 
         yield return new WaitForSeconds(0.1f);
 
-            wires[CurrentColourIndex].PlayCut();
+        wires[CurrentColourIndex].PlayCut();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -113,14 +108,14 @@ public class WireCutDefusal : DefusalBase
         cutters.EnsureActive(false);
         busy = false;
 
-        if(Defused)
+        if (Defused)
         {
             yield return new WaitForSeconds(0.7f);
             Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
         }
 
-        if(result == false)
+        if (result == false)
         {
             Room.Instance.Explode();
         }

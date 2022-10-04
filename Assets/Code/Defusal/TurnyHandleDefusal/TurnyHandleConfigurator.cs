@@ -27,7 +27,6 @@ public class TurnyHandleConfigurator : DefusalConfigurator
     {
         ResetLocations();
 
-        PickLocation();
         AssignTurnsToLocation();
     }
 

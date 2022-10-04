@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
     public float maxLookUpAngle;
     public float maxLookDownAngle;
 
+    public float mouseTurnSpeedX;
+    public float mouseTurnSpeedY;
+    public TextMesh mouseSpeedVisual;
+
     public float interactionDistance;
 
     public PlayerInventory inventory;
@@ -25,8 +29,10 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        Application.targetFrameRate = 60;
         Instance = this;
         ReturnToSpawn();
+        mouseSpeedVisual.gameObject.EnsureActive(false);
     }
 
     void OnDestroy()
@@ -58,7 +64,8 @@ public class Player : MonoBehaviour
     {
         if (Room.Instance.Mode == eMode.NORMAL && PlaySession.Paused == false)
         {
-            UpdateLook();
+            UpdateLookNonMouse();
+            UpdateLookMouse();
             CheckPointingRaycast();
             CheckInteractions();
 
@@ -68,7 +75,11 @@ public class Player : MonoBehaviour
         if (PlaySession.Paused)
         {
             Cursor.lockState = CursorLockMode.None;
+
         }
+
+        UpdateMouseSpeedInput();
+
     }
 
     void FixedUpdate()
@@ -107,16 +118,30 @@ public class Player : MonoBehaviour
         body.AddForce(moveForce, ForceMode.VelocityChange);
     }
 
-    void UpdateLook()
-    {
-        var lookDelta = GetLookVector();
 
+    void UpdateLookNonMouse()
+    {
+        var look = GetLookVectorNonMouse();
+        look.x *= turnSpeedX;
+        look.y *= turnSpeedY;
+        UpdateLook(look);
+    }
+    void UpdateLookMouse()
+    {
+        var look = GetLookVectorMouse();
+        look.x *= mouseTurnSpeedX;
+        look.y *= mouseTurnSpeedY;
+        UpdateLook(look);
+    }
+
+    void UpdateLook(Vector2 zRot)
+    {
         //turn in y axis:
-        var yawAngle = lookDelta.x * Time.deltaTime * turnSpeedX;
+        var yawAngle = zRot.x * Time.deltaTime;
         var yaw = Quaternion.AngleAxis(yawAngle, Vector3.up);
         transform.rotation = yaw * transform.rotation;
 
-        var pitchAngle = lookDelta.y * Time.deltaTime * turnSpeedY;
+        var pitchAngle = zRot.y * Time.deltaTime;
         //what's our pointing angle relative to Y axis?
         var currentAngle = Vector3.Angle(upDownTransform.forward, Vector3.up);
 
@@ -220,13 +245,10 @@ public class Player : MonoBehaviour
         bool action2 = false;
 
         action1 = Input.GetKeyDown(KeyCode.E);
-        action2 = Input.GetKeyDown(KeyCode.F);
 
         action1 |= Input.GetMouseButtonDown(0);
-        action2 |= Input.GetMouseButtonDown(1);
 
         action1 |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
-        action2 |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_LEFT);
         return (action1, action2);
     }
 
@@ -257,13 +279,20 @@ public class Player : MonoBehaviour
         return move;
     }
 
-    Vector2 GetLookVector()
+    Vector2 GetLookVectorMouse()
     {
         var look = Vector2.zero;
 
         //mouse movement?
         look.x += Input.GetAxis("Mouse X");
         look.y += Input.GetAxis("Mouse Y");
+
+        return look;
+    }
+
+    Vector2 GetLookVectorNonMouse()
+    {
+        var look = Vector2.zero;
 
         look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
         look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
@@ -276,6 +305,32 @@ public class Player : MonoBehaviour
         look.y += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_VERTICAL);
         look.x += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_HORIZONTAL);
         return look;
+    }
+
+    private void UpdateMouseSpeedInput()
+    {
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            mouseTurnSpeedX += 10;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            mouseTurnSpeedX -= 10;
+        }
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            mouseTurnSpeedY += 10;
+        }
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            mouseTurnSpeedY -= 10;
+        }
+
+        mouseSpeedVisual.text  = $"M:{mouseTurnSpeedX}|{mouseTurnSpeedY}";
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            mouseSpeedVisual.gameObject.EnsureActive(mouseSpeedVisual.gameObject.activeSelf == false);
+        }
     }
 
     public void PreExplode()
