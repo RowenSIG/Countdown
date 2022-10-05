@@ -28,8 +28,8 @@ public class PlayerTouchControls : MonoBehaviour
     private float deadZoneSize => screenDeadZoneInches * Screen.dpi;
     private float partialZone => screenPartialZoneInches * Screen.dpi;
 
-    private Rect leftOfScreen = new Rect(0, 0, Screen.width * 0.4f, Screen.height);
-    private Rect rightOfScreen = new Rect(0.6f * Screen.width, 0, Screen.width * 0.4f, Screen.height);
+    private Rect leftOfScreen => new Rect(0, 0, Screen.width * 0.4f, Screen.height);
+    private Rect rightOfScreen => new Rect(0.6f * Screen.width, 0, Screen.width * 0.4f, Screen.height);
 
     public GameObject dpad;
     public GameObject notDpad;
@@ -55,6 +55,7 @@ public class PlayerTouchControls : MonoBehaviour
     {
         Instance = this;
         visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+        gameObject.EnsureActive(Player.UseTouchControls);
     }
     private void OnDestroy()
     {
@@ -81,7 +82,7 @@ public class PlayerTouchControls : MonoBehaviour
         touch1Down = touch1;
         padState.leftStick = dir1;
 
-         var touch2Pos = GetTouchPos(rightOfScreen);
+        var touch2Pos = GetTouchPos(rightOfScreen);
         var (touch2, dir2) = GetStickState(touch2Pos, touch2Down);
         touch2Down = touch2;
         padState.rightStick = dir2;
@@ -97,24 +98,24 @@ public class PlayerTouchControls : MonoBehaviour
         dpad.EnsureActive(visualState == eTouchScreenVisual.DPAD_BUTTONS);
         notDpad.EnsureActive(visualState != eTouchScreenVisual.DPAD_BUTTONS);
     }
-   
+
     private Vector2? GetTouchPos(Rect zScreenRect)
     {
         var touchCount = Input.touchCount;
         var touches = Input.touches;
-        for(int i = 0 ; i< touchCount; i++)
+        for (int i = 0; i < touchCount; i++)
         {
             var touch = touches[i];
-            if(touch.fingerId == 0)
-                continue;
-            if(zScreenRect.Contains(touch.position))
+            // if (touch.fingerId == 0)
+            //     continue;
+            if (zScreenRect.Contains(touch.position))
                 return touch.position;
         }
         return null;
     }
     private Vector2? GetTouchPos(int zTouchId)
     {
-         bool hasTouch = Input.touchCount > zTouchId;
+        bool hasTouch = Input.touchCount > zTouchId;
 
         if (hasTouch == false)
         {
@@ -147,11 +148,11 @@ public class PlayerTouchControls : MonoBehaviour
             var dist = point.magnitude;
             var mult = 1f;
 
-            if(dist < deadZoneSize)
+            if (dist < deadZoneSize)
             {
                 point = Vector2.zero;
             }
-            else if(dist < (deadZoneSize + partialZone))
+            else if (dist < (deadZoneSize + partialZone))
             {
                 mult = Mathf.InverseLerp(deadZoneSize, deadZoneSize + partialZone, dist);
             }
@@ -178,9 +179,9 @@ public class PlayerTouchControls : MonoBehaviour
     {
         button3 = true;
     }
-    
 
-    
+
+
     int dpady;
     public void OnButtonDpadUp()
     {
@@ -208,13 +209,13 @@ public class PlayerTouchControls : MonoBehaviour
 
     public static float GetAxis(ePadAxis zAxis)
     {
-        switch(zAxis)
+        switch (zAxis)
         {
             case ePadAxis.DPAD_VERTICAL:
                 return Instance.padState.dpad.y;
             case ePadAxis.DPAD_HORIZONTAL:
                 return Instance.padState.dpad.x;
-            
+
             case ePadAxis.L_STICK_VERTICAL:
                 return Instance.padState.leftStick.y;
             case ePadAxis.L_STICK_HORIZONTAL:
@@ -229,7 +230,7 @@ public class PlayerTouchControls : MonoBehaviour
     }
     public static bool GetButtonDown(ePadButton zButton)
     {
-        switch(zButton)
+        switch (zButton)
         {
             case ePadButton.FACE_DOWN: return Instance.padState.button1;
 

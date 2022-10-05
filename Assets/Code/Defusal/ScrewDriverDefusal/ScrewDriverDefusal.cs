@@ -129,7 +129,6 @@ public class ScrewDriverDefusal : DefusalBase
     private IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
-        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
 
         yield return new WaitForSeconds(0.5f);
 
@@ -141,6 +140,7 @@ public class ScrewDriverDefusal : DefusalBase
         if (Defused)
         {
             panelCover.EnsureActive(false);
+            PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -157,6 +157,7 @@ public class ScrewDriverDefusal : DefusalBase
 
         if (result == false)
         {
+            PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
             screwDriver.EnsureActive(false);
             Room.Instance.Explode();
         }

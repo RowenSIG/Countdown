@@ -50,6 +50,7 @@ public class InGameMenu : MonoBehaviour
 
         bool pause = PlayerInputManager.GetButtonDown(0, ePadButton.START);
         pause |= Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tilde);
+        pause |= PlayerTouchControls.GetButtonDown(ePadButton.START);
 
         if (pause)
         {

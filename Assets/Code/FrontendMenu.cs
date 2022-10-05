@@ -9,6 +9,12 @@ public class FrontendMenu : MonoBehaviour
     public Text bestAttemptCount;
     public void LoadGame()
     {
+        Player.UseTouchControls = false;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("BombScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+    }
+    public void LoadGameTouchScreen()
+    {
+        Player.UseTouchControls = true;
         UnityEngine.SceneManagement.SceneManager.LoadScene("BombScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 

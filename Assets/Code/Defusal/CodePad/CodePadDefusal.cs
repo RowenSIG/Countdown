@@ -127,7 +127,6 @@ public class CodePadDefusal : DefusalBase
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
-        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
 
         yield return new WaitForSeconds(0.3f);
 
@@ -137,6 +136,8 @@ public class CodePadDefusal : DefusalBase
         
         if(Defused)
         {
+            PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+
             finger.gameObject.EnsureActive(false);
             yield return new WaitForSeconds(0.7f);
             Room.Instance.DefuseProgress(this);
@@ -145,6 +146,7 @@ public class CodePadDefusal : DefusalBase
         
         if(result == false)
         {
+            PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
             Room.Instance.Explode();
         }
     }    

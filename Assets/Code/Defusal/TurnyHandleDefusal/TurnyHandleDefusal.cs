@@ -71,7 +71,6 @@ public class TurnyHandleDefusal : DefusalBase
     private IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
-        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
 
         yield return new WaitForSeconds(0.2f);
 
@@ -116,6 +115,7 @@ public class TurnyHandleDefusal : DefusalBase
 
         if(Defused)
         {
+            PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
             yield return new WaitForSeconds(0.7f);
             Room.Instance.DefuseProgress(this);
             Room.Instance.CancelDefusal();
@@ -123,6 +123,7 @@ public class TurnyHandleDefusal : DefusalBase
 
         if(success == false)
         {
+            PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
             Room.Instance.Explode();
         }
     }
