@@ -104,7 +104,9 @@ public class CodePadDefusal : DefusalBase
 
     private void CheckPress()
     {
-        var pressButton = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        var pressButton = false;
+        pressButton |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_DOWN); 
+        pressButton |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
         pressButton |= Input.GetKeyDown(KeyCode.E);
         if(pressButton && Progress.code.Count < CodeLength)
         {
@@ -125,6 +127,8 @@ public class CodePadDefusal : DefusalBase
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+
         yield return new WaitForSeconds(0.3f);
 
         var result = AttemptDefusal(progress);

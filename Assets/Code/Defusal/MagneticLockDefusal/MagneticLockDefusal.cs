@@ -24,6 +24,7 @@ public class MagneticLockDefusal : DefusalBase
     protected override void UpdateInternal()
     {
         var place = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        place |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_DOWN); 
         place |= Input.GetKeyDown(KeyCode.E);
 
         if (place)
@@ -108,6 +109,8 @@ public class MagneticLockDefusal : DefusalBase
     private IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+
         yield return new WaitForSeconds(0.2f);
 
         var tens = Progress.Voltage / 10;

@@ -57,6 +57,7 @@ public class WireCutDefusal : DefusalBase
     void UpdateCutInput()
     {
         var button = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        button |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_DOWN); 
         button |= Input.GetKeyDown(KeyCode.E);
         if (button)
         {
@@ -96,6 +97,8 @@ public class WireCutDefusal : DefusalBase
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
 
         yield return new WaitForSeconds(0.1f);
 

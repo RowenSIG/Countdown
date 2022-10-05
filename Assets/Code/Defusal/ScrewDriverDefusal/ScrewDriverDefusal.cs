@@ -70,6 +70,7 @@ public class ScrewDriverDefusal : DefusalBase
     private void CheckScrew()
     {
         bool input = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        input |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_DOWN); 
         input |= Input.GetKeyDown(KeyCode.E);
 
         bool screwNotScrewed = screws[currentScrewIndex].activeSelf;
@@ -128,6 +129,8 @@ public class ScrewDriverDefusal : DefusalBase
     private IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+
         yield return new WaitForSeconds(0.5f);
 
         Progress.attemptIndex = currentScrewIndex;

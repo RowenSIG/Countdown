@@ -46,9 +46,9 @@ public abstract class DefusalBase : InteractiveItem
 
     public override bool CanInteract()
     {
-        if(busy)
+        if (busy)
             return false;
-        if(Defused)
+        if (Defused)
             return false;
         return true;
     }
@@ -64,20 +64,29 @@ public abstract class DefusalBase : InteractiveItem
     }
     public void Update()
     {
-        if(Room.Instance.CurrentDefusal != this)
+        if (Room.Instance.CurrentDefusal != this)
             return;
 
-        if(PlaySession.Paused)
-            return;
-        
-        if(busy)
+        if (PlaySession.Paused)
             return;
 
-        if(Defused)
+        if (busy)
             return;
 
-        bool cancel = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_RIGHT); 
-        cancel |= Input.GetKeyDown(KeyCode.Q);
+        if (Defused)
+            return;
+
+        bool cancel = false;
+
+        if (Player.UseTouchControls)
+        {
+            cancel |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_RIGHT);
+        }
+        else
+        {
+            cancel |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_RIGHT);
+            cancel |= Input.GetKeyDown(KeyCode.Q);
+        }
         if (cancel)
         {
             Cancel();
@@ -87,6 +96,7 @@ public abstract class DefusalBase : InteractiveItem
     }
     public void SetupWithInstruction(DefusalInstruction zInstruction)
     {
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
         instruction = zInstruction;
         SetupInternal();
         statusLight.SetIdle();
@@ -94,20 +104,21 @@ public abstract class DefusalBase : InteractiveItem
     public bool AttemptDefusal(DefusalInstruction zInstruction)
     {
         var success = instruction.Match(zInstruction);
-        if(success == false)
+        if (success == false)
         {
             statusLight.SetExploded();
         }
-        else if(Defused)
+        else if (Defused)
         {
             statusLight.SetDefused();
         }
-        
+
         return success;
     }
 
     public void StartDefusal()
     {
+        PlayerTouchControls.visualState = eTouchScreenVisual.DPAD_BUTTONS;
         progress = Player.Instance.instructions.GetInstruction(Type);
 
         StartCoroutine(CoStartWait());
@@ -117,6 +128,7 @@ public abstract class DefusalBase : InteractiveItem
     public void Cancel()
     {
         CancelInternal();
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
         statusLight.SetIdle();
         Room.Instance.CancelDefusal();
     }
@@ -129,7 +141,7 @@ public abstract class DefusalBase : InteractiveItem
     protected abstract void StartDefusalInternal();
     protected abstract void UpdateInternal();
 
-    protected virtual void CancelInternal() {}
+    protected virtual void CancelInternal() { }
     private IEnumerator<YieldInstruction> CoStartWait()
     {
         busy = true;
@@ -138,32 +150,51 @@ public abstract class DefusalBase : InteractiveItem
     }
 
 
-    
+
     float lastDpadHorizontal = 0f;
     protected float DpadHorizontal()
     {
-        var thisDpadHorizontal =  PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
-        if(lastDpadHorizontal > 0f && thisDpadHorizontal > 0f)
+        var thisDpadHorizontal = 0f;
+        if (Player.UseTouchControls)
+        {
+            thisDpadHorizontal = PlayerTouchControls.GetAxis(ePadAxis.DPAD_HORIZONTAL);
+        }
+        else
+        {
+            thisDpadHorizontal = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_HORIZONTAL);
+        }
+
+        if (lastDpadHorizontal > 0f && thisDpadHorizontal > 0f)
         {
             return 0;
         }
-        else if(lastDpadHorizontal <0f && thisDpadHorizontal <0f)
+        else if (lastDpadHorizontal < 0f && thisDpadHorizontal < 0f)
         {
             return 0;
         }
 
         lastDpadHorizontal = thisDpadHorizontal;
         return thisDpadHorizontal;
-    } 
+    }
     float lastDpadVertical = 0f;
     protected float DpadVertical()
     {
-        var thisDpadVertical =  PlayerInputManager.GetAxis(0, ePadAxis.DPAD_VERTICAL);
-        if(lastDpadVertical > 0f && thisDpadVertical > 0f)
+        var thisDpadVertical = 0f;
+
+        if (Player.UseTouchControls)
+        {
+            thisDpadVertical = PlayerTouchControls.GetAxis(ePadAxis.DPAD_VERTICAL);
+        }
+        else
+        {
+            thisDpadVertical = PlayerInputManager.GetAxis(0, ePadAxis.DPAD_VERTICAL);
+        }
+
+        if (lastDpadVertical > 0f && thisDpadVertical > 0f)
         {
             return 0;
         }
-        else if(lastDpadVertical <0f && thisDpadVertical <0f)
+        else if (lastDpadVertical < 0f && thisDpadVertical < 0f)
         {
             return 0;
         }

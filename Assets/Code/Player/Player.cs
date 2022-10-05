@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
+    public static bool UseTouchControls = true;
+
     public static Player Instance { get; private set; }
     public Rigidbody body;
     public float moveSpeed;
@@ -69,10 +72,11 @@ public class Player : MonoBehaviour
             CheckPointingRaycast();
             CheckInteractions();
 
-            Cursor.lockState = CursorLockMode.Locked;
+            if( UseTouchControls == false)
+                Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if (PlaySession.Paused)
+        if (PlaySession.Paused && UseTouchControls == false)
         {
             Cursor.lockState = CursorLockMode.None;
 
@@ -121,17 +125,21 @@ public class Player : MonoBehaviour
 
     void UpdateLookNonMouse()
     {
-        var look = GetLookVectorNonMouse();
+        var look = Vector2.zero;
+        look += GetLookVectorNonMouse();
         look.x *= turnSpeedX;
         look.y *= turnSpeedY;
         UpdateLook(look);
     }
     void UpdateLookMouse()
     {
-        var look = GetLookVectorMouse();
-        look.x *= mouseTurnSpeedX;
-        look.y *= mouseTurnSpeedY;
-        UpdateLook(look);
+        if(UseTouchControls == false)
+        {
+            var look = GetLookVectorMouse();
+            look.x *= mouseTurnSpeedX;
+            look.y *= mouseTurnSpeedY;
+            UpdateLook(look);
+        }
     }
 
     void UpdateLook(Vector2 zRot)
@@ -244,11 +252,16 @@ public class Player : MonoBehaviour
         bool action1 = false;
         bool action2 = false;
 
-        action1 = Input.GetKeyDown(KeyCode.E);
-
-        action1 |= Input.GetMouseButtonDown(0);
-
-        action1 |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        if (UseTouchControls)
+        {
+            action1 |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_DOWN);
+        }
+        else
+        {
+            action1 = Input.GetKeyDown(KeyCode.E);
+            action1 |= Input.GetMouseButtonDown(0);
+            action1 |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        }
         return (action1, action2);
     }
 
@@ -256,26 +269,40 @@ public class Player : MonoBehaviour
     {
         bool action = false;
 
-        action |= Input.GetKeyDown(KeyCode.Space);
-        action |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_UP);
+        if (UseTouchControls)
+        {
+            action |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_UP);
+        }
+        else
+        {
+            action |= Input.GetKeyDown(KeyCode.Space);
+            action |= PlayerInputManager.GetButtonDown(0, ePadButton.FACE_UP);
+        }
         return action;
     }
     Vector2 GetMoveVector()
     {
         var move = Vector2.zero;
 
-        if (Input.GetKey(KeyCode.W))
-            move.y += 1;
-        if (Input.GetKey(KeyCode.S))
-            move.y -= 1;
-        if (Input.GetKey(KeyCode.A))
-            move.x -= 1;
-        if (Input.GetKey(KeyCode.D))
-            move.x += 1;
+        if (UseTouchControls)
+        {
+            move.y += PlayerTouchControls.GetAxis(ePadAxis.L_STICK_VERTICAL);
+            move.x += PlayerTouchControls.GetAxis(ePadAxis.L_STICK_HORIZONTAL);
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.W))
+                move.y += 1;
+            if (Input.GetKey(KeyCode.S))
+                move.y -= 1;
+            if (Input.GetKey(KeyCode.A))
+                move.x -= 1;
+            if (Input.GetKey(KeyCode.D))
+                move.x += 1;
 
-        move.y += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_VERTICAL);
-
-        move.x += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_HORIZONTAL);
+            move.y += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_VERTICAL);
+            move.x += PlayerInputManager.GetAxis(0, ePadAxis.L_STICK_HORIZONTAL);
+        }
         return move;
     }
 
@@ -284,8 +311,8 @@ public class Player : MonoBehaviour
         var look = Vector2.zero;
 
         //mouse movement?
-        // look.x += Input.GetAxis("Mouse X");
-        // look.y += Input.GetAxis("Mouse Y");
+        look.x += Input.GetAxis("Mouse X");
+        look.y += Input.GetAxis("Mouse Y");
 
         return look;
     }
@@ -294,17 +321,26 @@ public class Player : MonoBehaviour
     {
         var look = Vector2.zero;
 
-        look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
-        look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
-        look.y += Input.GetKey(KeyCode.UpArrow) ? 1 : 0; //weird inversions
-        look.y -= Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
+        if (UseTouchControls)
+        {
+            look.x += PlayerTouchControls.GetAxis(ePadAxis.R_STICK_HORIZONTAL);
+            look.y += PlayerTouchControls.GetAxis(ePadAxis.R_STICK_VERTICAL);
+        }
+        else
+        {
+            look.x -= Input.GetKey(KeyCode.LeftArrow) ? 1 : 0;
+            look.x += Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
+            look.y += Input.GetKey(KeyCode.UpArrow) ? 1 : 0; //weird inversions
+            look.y -= Input.GetKey(KeyCode.DownArrow) ? 1 : 0;
 
-        look.x = Mathf.Clamp(look.x, -1f, 1f);
-        look.y = Mathf.Clamp(look.y, -1f, 1f);
+            look.x = Mathf.Clamp(look.x, -1f, 1f);
+            look.y = Mathf.Clamp(look.y, -1f, 1f);
 
-        look.y += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_VERTICAL);
-        look.x += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_HORIZONTAL);
+            look.y += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_VERTICAL);
+            look.x += PlayerInputManager.GetAxis(0, ePadAxis.R_STICK_HORIZONTAL);
+        }
         return look;
+
     }
 
     private void UpdateMouseSpeedInput()
@@ -326,8 +362,8 @@ public class Player : MonoBehaviour
             mouseTurnSpeedY -= 10;
         }
 
-        mouseSpeedVisual.text  = $"M:{mouseTurnSpeedX}|{mouseTurnSpeedY}";
-        if(Input.GetKeyDown(KeyCode.P))
+        mouseSpeedVisual.text = $"M:{mouseTurnSpeedX}|{mouseTurnSpeedY}";
+        if (Input.GetKeyDown(KeyCode.P))
         {
             mouseSpeedVisual.gameObject.EnsureActive(mouseSpeedVisual.gameObject.activeSelf == false);
         }

@@ -29,6 +29,7 @@ public class LiquidDefusal : DefusalBase
 
         //just check if we're clicking to pour:
         bool pour = PlayerInputManager.GetButtonDown(0, ePadButton.FACE_DOWN);
+        pour |= PlayerTouchControls.GetButtonDown(ePadButton.FACE_DOWN); 
         pour |= Input.GetKeyDown(KeyCode.E);
 
         if(pour)
@@ -78,6 +79,8 @@ public class LiquidDefusal : DefusalBase
     IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+
         yield return new WaitForSeconds(0.5f);
 
         var result = AttemptDefusal(progress);

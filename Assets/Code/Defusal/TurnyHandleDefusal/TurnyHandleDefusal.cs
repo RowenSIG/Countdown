@@ -71,6 +71,8 @@ public class TurnyHandleDefusal : DefusalBase
     private IEnumerator<YieldInstruction> CoAttemptDefusal()
     {
         busy = true;
+        PlayerTouchControls.visualState = eTouchScreenVisual.TWIN_STICK_BUTTONS;
+
         yield return new WaitForSeconds(0.2f);
 
         //turn handle
