@@ -1,3 +1,4 @@
+#define TOUCH_CONTROLS
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -155,6 +156,18 @@ public static class PlayerInputManager
         return false;
     }
 
+
+#if TOUCH_CONTROLS
+
+    public static bool GetButtonDown(int zPadIndex, ePadButton zButton)
+    {
+        return  PlayerTouchControls.GetButtonDown(zButton);
+    }
+    public static float GetAxis(int zPadIndex, ePadAxis zAxis)
+    {
+        return PlayerTouchControls.GetAxis(zAxis);
+    }
+#else
     public static bool GetButtonDown(int zPadIndex, ePadButton zButton)
     {
         // if(BlockViaFrameCache(zPadIndex, zButton))
@@ -182,6 +195,7 @@ public static class PlayerInputManager
         value = Mathf.Clamp01(value);
         return value;
     }
+#endif
 
     private static Dictionary<ePadButton, string> BuildButtonDic()
     {
